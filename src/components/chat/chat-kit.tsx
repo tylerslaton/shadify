@@ -33,8 +33,8 @@ export function useChatKit() {
         name: "weather",
         description: "Shows the weather for a given location",
         props: {
-          location: s.string("The location to get the weather for"),
           themeColor: s.string("The theme to use for the weather card"),
+          location: s.streaming.string("The location to get the weather for"),
         },
       }),
     ],
