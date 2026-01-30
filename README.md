@@ -1,105 +1,48 @@
-# CopilotKit <> LangGraph Starter
+# CopilotKit - Streaming JSON Parser + UI Renderer
 
-This is a starter template for building AI agents using [LangGraph](https://www.langchain.com/langgraph) and [CopilotKit](https://copilotkit.ai). It provides a modern Next.js application with an integrated LangGraph agent to be built on top of.
+I have been working on a new streaming JSON parser that manages its state within React. It preserves object identities while parsing chunks, allowing for fine-grained reactivity and improved UI performance.
 
-## Prerequisites
-
-- Node.js 18+ 
-- Python 3.8+
-- Any of the following package managers:
-  - [pnpm](https://pnpm.io/installation) (recommended)
-  - npm
-  - [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
-  - [bun](https://bun.sh/)
-- OpenAI API Key (for the LangGraph agent)
-
-> **Note:** This repository ignores lock files (package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb) to avoid conflicts between different package managers. Each developer should generate their own lock file using their preferred package manager. After that, make sure to delete it from the .gitignore.
+This repository demos using this new streaming JSON parser along with a JSON UI renderer to let an LLM build a dynamic user interface from a fixed set of React components. It uses CopilotKit to build a user interface on top of a LangGraph agent.
 
 ## Getting Started
 
-1. Install dependencies using your preferred package manager:
-```bash
-# Using pnpm (recommended)
+### Prerequisites
+
+- Node.js
+- pnpm
+- Python 3 (for the LangGraph agent)
+
+### Setup
+
+Create a `.env` file in `./agent` with an OpenAI API key:
+
+```sh
+OPENAI_API_KEY=...
+```
+
+Install dependencies:
+
+```sh
 pnpm install
-
-# Using npm
-npm install
-
-# Using yarn
-yarn install
-
-# Using bun
-bun install
 ```
 
-> **Note:** Installing the package dependencies will also install the agent's python dependencies via the `install:agent` script.
+Start the dev server:
 
-
-2. Set up your OpenAI API key:
-```bash
-echo 'OPENAI_API_KEY=your-openai-api-key-here' > agent/.env
-```
-
-3. Start the development server:
-```bash
-# Using pnpm
+```sh
 pnpm dev
-
-# Using npm
-npm run dev
-
-# Using yarn
-yarn dev
-
-# Using bun
-bun run dev
 ```
 
-This will start both the UI and agent servers concurrently.
+## Relevant Code Paths
 
-## Available Scripts
-The following scripts can also be run using your preferred package manager:
-- `dev` - Starts both UI and agent servers in development mode
-- `dev:debug` - Starts development servers with debug logging enabled
-- `dev:ui` - Starts only the Next.js UI server
-- `dev:agent` - Starts only the LangGraph agent server
-- `build` - Builds the Next.js application for production
-- `start` - Starts the production server
-- `lint` - Runs ESLint for code linting
-- `install:agent` - Installs Python dependencies for the agent
+- `./src/components/chat/chat-kit.tsx` -> Builds a UI kit of React components that the LLM can use when generating a response.
 
-## Documentation
+- `./src/app/page.tsx` -> Derives JSON schema from the UI kit and forwards it to the agent using `useCopilotReadable`
 
-The main UI component is in `src/app/page.tsx`. You can:
-- Modify the theme colors and styling
-- Add new frontend actions
-- Customize the CopilotKit sidebar appearance
+- `./agent/main.py` -> Reads the schema from `useCopilotReadable` and applies it as a structured output.
 
-## 📚 Documentation
-
-- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/) - Learn more about LangGraph and its features
-- [CopilotKit Documentation](https://docs.copilotkit.ai) - Explore CopilotKit's capabilities
-- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
-- [YFinance Documentation](https://pypi.org/project/yfinance/) - Financial data tools
-
-## Contributing
-
-Feel free to submit issues and enhancement requests! This starter is designed to be easily extensible.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- `./src/components/custom-message-renderer.tsx` -> Parses the streaming JSON and renders it into a user interface
 
 ## Troubleshooting
 
-### Agent Connection Issues
-If you see "I'm having trouble connecting to my tools", make sure:
-1. The LangGraph agent is running on port 8000
-2. Your OpenAI API key is set correctly
-3. Both servers started successfully
-
-### Python Dependencies
-If you encounter Python import errors:
-```bash
-npm install:agent
-```
+- If the agent fails to start, confirm your Python environment can install the agent dependencies in `./agent`.
+- If you see missing API key errors, double-check that `OPENAI_API_KEY` is present in `./agent/.env`.
