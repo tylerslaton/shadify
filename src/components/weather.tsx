@@ -28,7 +28,7 @@ export function WeatherCard({
 }) {
   return (
     <div
-      style={{ backgroundColor: themeColor }}
+      style={{ backgroundColor: themeColor, overflow: "hidden" }}
       className="rounded-xl shadow-xl mt-6 mb-4 max-w-md w-full"
     >
       <div className="bg-white/20 p-4 w-full">

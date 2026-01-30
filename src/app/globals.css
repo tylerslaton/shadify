@@ -22,3 +22,40 @@ body,
 html {
   height: 100%;
 }
+
+.flash-create {
+  animation: flash-create 0.7s ease-out;
+}
+
+.flash-update {
+  animation: flash-update 0.6s ease-out;
+}
+
+@keyframes flash-create {
+  0% {
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.65);
+    border-color: rgba(45, 212, 191, 0.9);
+    background-color: rgba(15, 118, 110, 0.45);
+    transform: translateY(-4px) scale(1.02);
+  }
+  60% {
+    box-shadow: 0 0 0 16px rgba(45, 212, 191, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0);
+    border-color: rgba(51, 65, 85, 1);
+    background-color: rgba(15, 23, 42, 0.8);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes flash-update {
+  0% {
+    color: #fef3c7;
+    text-shadow: 0 0 12px rgba(251, 191, 36, 0.7);
+  }
+  100% {
+    color: inherit;
+    text-shadow: none;
+  }
+}
