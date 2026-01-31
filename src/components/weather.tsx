@@ -22,9 +22,17 @@ function SunIcon() {
 export function WeatherCard({
   location,
   themeColor,
+  temperature,
+  humidity,
+  windSpeed,
+  feelsLike,
 }: {
   location: string;
   themeColor: string;
+  temperature: number;
+  humidity: number;
+  windSpeed: number;
+  feelsLike: number;
 }) {
   return (
     <div
@@ -43,7 +51,7 @@ export function WeatherCard({
         </div>
 
         <div className="mt-4 flex items-end justify-between">
-          <div className="text-3xl font-bold text-white">70°</div>
+          <div className="text-3xl font-bold text-white">{temperature}°</div>
           <div className="text-sm text-white">Clear skies</div>
         </div>
 
@@ -51,15 +59,15 @@ export function WeatherCard({
           <div className="grid grid-cols-3 gap-2 text-center">
             <div>
               <p className="text-white text-xs">Humidity</p>
-              <p className="text-white font-medium">45%</p>
+              <p className="text-white font-medium">{humidity}%</p>
             </div>
             <div>
               <p className="text-white text-xs">Wind</p>
-              <p className="text-white font-medium">5 mph</p>
+              <p className="text-white font-medium">{windSpeed} mph</p>
             </div>
             <div>
               <p className="text-white text-xs">Feels Like</p>
-              <p className="text-white font-medium">72°</p>
+              <p className="text-white font-medium">{feelsLike}°</p>
             </div>
           </div>
         </div>

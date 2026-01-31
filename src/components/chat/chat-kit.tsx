@@ -35,6 +35,10 @@ export function useChatKit() {
         props: {
           themeColor: s.string("The theme to use for the weather card"),
           location: s.streaming.string("The location to get the weather for"),
+          temperature: s.number("The temperature in Fahrenheit"),
+          humidity: s.number("The humidity in percentage"),
+          windSpeed: s.number("The wind speed in miles per hour"),
+          feelsLike: s.number("The feels like temperature in Fahrenheit"),
         },
       }),
     ],

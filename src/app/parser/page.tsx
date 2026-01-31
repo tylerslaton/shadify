@@ -26,11 +26,11 @@ const jsonDocument = `{
   ]
 }`;
 
-const schema = s.object("demo-json", {
-  title: s.string("Title"),
+const schema = s.streaming.object("demo-json", {
+  title: s.streaming.string("Title"),
   version: s.number("Version"),
   status: s.string("Status"),
-  features: s.array("Features", s.string("Feature")),
+  features: s.streaming.array("Features", s.streaming.string("Feature")),
   theme: s.object("Theme", {
     primary: s.string("Primary color"),
     secondary: s.string("Secondary color"),
@@ -43,9 +43,9 @@ const schema = s.object("demo-json", {
   }),
   contributors: s.array(
     "Contributors",
-    s.object("Contributor", {
-      name: s.string("Name"),
-      role: s.string("Role"),
+    s.streaming.object("Contributor", {
+      name: s.streaming.string("Name"),
+      role: s.streaming.string("Role"),
       active: s.boolean("Active"),
     }),
   ),
@@ -97,7 +97,9 @@ function getNodeValueLabel(node: JsonAstNode) {
     case "number":
       return node.resolvedValue ?? node.buffer ?? "";
     case "boolean":
-      return node.resolvedValue === undefined ? "…" : String(node.resolvedValue);
+      return node.resolvedValue === undefined
+        ? "…"
+        : String(node.resolvedValue);
     case "null":
       return node.resolvedValue === null ? "null" : "…";
     case "array":
@@ -272,7 +274,10 @@ function AstVisualizer({ parserState }: { parserState: ParserState }) {
   const spacingY = 140;
 
   return (
-    <div className="relative" style={{ width: layout.width, height: layout.height }}>
+    <div
+      className="relative"
+      style={{ width: layout.width, height: layout.height }}
+    >
       <svg
         className="absolute inset-0"
         width={layout.width}
@@ -352,7 +357,7 @@ function AstVisualizer({ parserState }: { parserState: ParserState }) {
 export default function ParserVisualizerPage() {
   const [cursor, setCursor] = useState(jsonDocument.length);
   const jsonSlice = jsonDocument.slice(0, cursor);
-  const { parserState } = useJsonParser(jsonSlice, schema);
+  const { parserState, value } = useJsonParser(jsonSlice, schema);
 
   const ticks = useMemo(() => Array.from({ length: jsonDocument.length }), []);
 
@@ -378,20 +383,32 @@ export default function ParserVisualizerPage() {
         </div>
       </header>
 
-      <div className="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[1fr_1.2fr]">
+      <div className="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-[minmax(0,1fr)_720px]">
         <section className="flex min-h-0 flex-col border-b border-slate-800 bg-slate-900/40 md:border-b-0 md:border-r">
-          <div className="border-b border-slate-800 px-6 py-3 text-xs uppercase tracking-[0.3em] text-slate-400">
-            JSON Document
+          <div className="flex min-h-0 flex-1 flex-col">
+            <div className="border-b border-slate-800 px-6 py-3 text-xs uppercase tracking-[0.3em] text-slate-400">
+              JSON Document
+            </div>
+            <div className="min-h-0 flex-1 overflow-auto px-6 py-4">
+              <pre className="whitespace-pre-wrap text-sm leading-6">
+                <span className="text-emerald-200">
+                  {jsonDocument.slice(0, cursor)}
+                </span>
+                <span className="text-slate-600">
+                  {jsonDocument.slice(cursor)}
+                </span>
+              </pre>
+            </div>
           </div>
-          <div className="min-h-0 flex-1 overflow-auto px-6 py-4">
-            <pre className="whitespace-pre-wrap text-sm leading-6">
-              <span className="text-emerald-200">
-                {jsonDocument.slice(0, cursor)}
-              </span>
-              <span className="text-slate-600">
-                {jsonDocument.slice(cursor)}
-              </span>
-            </pre>
+          <div className="flex min-h-0 flex-[0.6] flex-col border-t border-slate-800">
+            <div className="border-b border-slate-800 px-6 py-3 text-xs uppercase tracking-[0.3em] text-slate-400">
+              Resolved Value
+            </div>
+            <div className="min-h-0 flex-1 overflow-auto px-6 py-4">
+              <pre className="whitespace-pre-wrap text-sm leading-6 text-slate-200">
+                {value ? JSON.stringify(value, null, 2) : "—"}
+              </pre>
+            </div>
           </div>
         </section>
 
@@ -403,8 +420,8 @@ export default function ParserVisualizerPage() {
             <AstVisualizer parserState={parserState} />
             {parserState.error ? (
               <div className="mt-4 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-xs text-rose-200">
-                {parserState.error.message} (line {parserState.error.line},
-                col {parserState.error.column})
+                {parserState.error.message} (line {parserState.error.line}, col{" "}
+                {parserState.error.column})
               </div>
             ) : null}
           </div>
