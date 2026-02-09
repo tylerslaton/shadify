@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { memo } from "react";
+
 // Simple sun icon for the weather card
 function SunIcon() {
   return (
@@ -19,7 +22,7 @@ function SunIcon() {
 
 // Weather card component where the location and themeColor are based on what the agent
 // sets via tool calls.
-export function WeatherCard({
+export const WeatherCard = memo(function WeatherCard({
   location,
   themeColor,
   temperature,
@@ -34,10 +37,17 @@ export function WeatherCard({
   windSpeed: number;
   feelsLike: number;
 }) {
+  console.log("%cRendering the Weather Card", "color: #6699ea;");
+  useEffect(() => {
+    console.log("%cMounting the Weather Card", "color: #ea66c0;");
+    return () =>
+      console.log("%cUnmounting the Weather Card", "color: #d1ea66;");
+  }, []);
+
   return (
     <div
       style={{ backgroundColor: themeColor, overflow: "hidden" }}
-      className="rounded-xl shadow-xl mt-6 mb-4 max-w-md w-full"
+      className="rounded-xl shadow-xl mt-6 mb-4 max-w-md w-full weather-card-enter"
     >
       <div className="bg-white/20 p-4 w-full">
         <div className="flex items-center justify-between">
@@ -74,4 +84,4 @@ export function WeatherCard({
       </div>
     </div>
   );
-}
+});

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -30,7 +31,7 @@ const schema = s.streaming.object("demo-json", {
   title: s.streaming.string("Title"),
   version: s.number("Version"),
   status: s.string("Status"),
-  features: s.streaming.array("Features", s.streaming.string("Feature")),
+  features: s.streaming.array("Features", s.string("Feature")),
   theme: s.object("Theme", {
     primary: s.string("Primary color"),
     secondary: s.string("Secondary color"),
@@ -83,9 +84,9 @@ function getNodeValueSignature(node: JsonAstNode) {
         node.resolvedValue ?? [],
       )}`;
     case "object":
-      return `${node.keys.join(",")}|${node.children.join(",")}|${JSON.stringify(
-        node.resolvedValue ?? {},
-      )}`;
+      return `${node.keys.join(",")}|${node.children.join(
+        ",",
+      )}|${JSON.stringify(node.resolvedValue ?? {})}`;
     default:
       return "";
   }
@@ -223,6 +224,7 @@ function useNodeFlashes(parserState: ParserState) {
 
     prevSignatures.current = nextSignatures;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFlashes((current) => {
       const next: Record<number, FlashKind> = {};
       Object.entries(current).forEach(([id, kind]) => {
@@ -378,6 +380,12 @@ export default function ParserVisualizerPage() {
             className="rounded-full border border-slate-800 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-300 transition hover:border-slate-600 hover:text-white"
           >
             Chat Demo
+          </a>
+          <a
+            href="/ui-renderer"
+            className="rounded-full border border-emerald-500/40 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-200 transition hover:border-emerald-400 hover:text-emerald-100"
+          >
+            UI Renderer
           </a>
           <span>Characters: {cursor}</span>
         </div>

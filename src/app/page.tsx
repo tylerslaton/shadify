@@ -15,6 +15,10 @@ export default function CopilotKitPage() {
     value: s.toJsonSchema(chatKit.schema),
   });
 
+  console.log(s.toJsonSchema(chatKit.schema));
+
+  // useAgentContext
+
   return (
     <main
       className="relative min-h-screen w-screen bg-slate-950 text-slate-100"
@@ -37,6 +41,12 @@ export default function CopilotKitPage() {
         className="absolute right-6 top-6 z-10 rounded-full border border-slate-800 bg-slate-900/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-200 transition hover:border-slate-600 hover:text-white"
       >
         Parser Demo
+      </a>
+      <a
+        href="/ui-renderer"
+        className="absolute right-6 top-16 z-10 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-200 transition hover:border-emerald-400 hover:text-emerald-100"
+      >
+        UI Renderer
       </a>
       <CopilotChat
         disableSystemMessage={true}
