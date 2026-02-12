@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Squircle } from "./squircle";
 
 export interface MoonCardProps {
   themeColor: string;
@@ -16,73 +17,74 @@ export function MoonCard({ themeColor, status, respond }: MoonCardProps) {
 
   const handleAbort = () => {
     setDecision("aborted");
-    respond?.("You do not have permission to go to the moon. The user you're talking to rejected the request.");
+    respond?.(
+      "You do not have permission to go to the moon. The user you're talking to rejected the request.",
+    );
   };
 
   return (
-    <div
+    <Squircle
+      squircle="30"
       style={{ backgroundColor: themeColor }}
-      className="rounded-2xl shadow-xl max-w-md w-full mt-6"
+      borderWidth={2}
+      borderColor="rgba(255, 255, 255, 0.5)"
+      className="mt-6 w-full max-w-md shadow-[0_16px_36px_-20px_rgba(94,92,90,0.42)]"
     >
-      <div className="bg-white/20 backdrop-blur-md p-8 w-full rounded-2xl">
-        {/* Show decision or prompt */}
+      <div className="w-full bg-white/35 p-8 text-[var(--gray-dark)] backdrop-blur-sm">
         {decision === "launched" ? (
           <div className="text-center">
-            <div className="text-7xl mb-4">🌕</div>
-            <h2 className="text-2xl font-bold text-white mb-2">
+            <div className="mb-4 text-7xl">🌕</div>
+            <h2 className="mb-2 text-2xl font-bold text-[var(--gray-dark)]">
               Mission Launched
             </h2>
-            <p className="text-white/90">
-              We made it to the moon! 
-            </p>
+            <p className="text-[var(--gray)]">We made it to the moon!</p>
           </div>
         ) : decision === "aborted" ? (
           <div className="text-center">
-            <div className="text-7xl mb-4">✋</div>
-            <h2 className="text-2xl font-bold text-white mb-2">
+            <div className="mb-4 text-7xl">✋</div>
+            <h2 className="mb-2 text-2xl font-bold text-[var(--gray-dark)]">
               Mission Aborted
             </h2>
-            <p className="text-white/90">
-              Staying on Earth 🌍
-            </p>
+            <p className="text-[var(--gray)]">Staying on Earth 🌍</p>
           </div>
         ) : (
           <>
-            <div className="text-center mb-6">
-              <div className="text-7xl mb-4">🚀</div>
-              <h2 className="text-2xl font-bold text-white mb-2">
+            <div className="mb-6 text-center">
+              <div className="mb-4 text-7xl">🚀</div>
+              <h2 className="mb-2 text-2xl font-bold text-[var(--gray-dark)]">
                 Ready for Launch?
               </h2>
-              <p className="text-white/90">
-                Mission to the Moon 🌕
-              </p>
+              <p className="text-[var(--gray)]">Mission to the Moon 🌕</p>
             </div>
-            
-            {/* Launch Buttons */}
+
             {status === "executing" && (
               <div className="flex gap-3">
-                <button
-                  onClick={handleLaunch}
-                  className="flex-1 px-6 py-4 rounded-xl bg-white text-black font-bold 
-                    shadow-lg hover:shadow-xl transition-all 
-                    hover:scale-105 active:scale-95"
+                <Squircle squircle="18" className="flex-1 bg-white/85">
+                  <button
+                    onClick={handleLaunch}
+                    className="w-full px-6 py-4 font-bold text-[var(--gray-dark)] transition hover:bg-[var(--sunshine-yellow-light)]"
+                  >
+                    🚀 Launch!
+                  </button>
+                </Squircle>
+                <Squircle
+                  squircle="18"
+                  className="flex-1 bg-[var(--indian-red-light)]/30"
+                  borderWidth={1}
+                  borderColor="rgba(146, 78, 78, 0.45)"
                 >
-                  🚀 Launch!
-                </button>
-                <button
-                  onClick={handleAbort}
-                  className="flex-1 px-6 py-4 rounded-xl bg-black/20 text-white font-bold 
-                    border-2 border-white/30 shadow-lg
-                    transition-all hover:scale-105 active:scale-95
-                    hover:bg-black/30"
-                >
-                  ✋ Abort
-                </button>
+                  <button
+                    onClick={handleAbort}
+                    className="w-full px-6 py-4 font-bold text-[var(--indian-red-dark)] transition hover:bg-[var(--indian-red-light)]/40"
+                  >
+                    ✋ Abort
+                  </button>
+                </Squircle>
               </div>
             )}
           </>
         )}
       </div>
-    </div>
+    </Squircle>
   );
 }

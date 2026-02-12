@@ -1,61 +1,49 @@
 "use client";
 
 import { CustomMessageRenderer } from "@/components/custom-message-renderer";
-import { useCopilotReadable } from "@copilotkit/react-core";
+import { AppHeader } from "@/components/app-header";
+import { useAgentContext } from "@copilotkit/react-core/v2";
 import { CopilotKitCSSProperties, CopilotChat } from "@copilotkit/react-ui";
-import { useState } from "react";
 import { useChatKit } from "@/components/chat/chat-kit";
 import { s } from "@hashbrownai/core";
 
 export default function CopilotKitPage() {
   const chatKit = useChatKit();
-  const [themeColor] = useState("#60a5fa");
-  useCopilotReadable({
+
+  useAgentContext({
     description: "output_schema",
     value: s.toJsonSchema(chatKit.schema),
   });
 
-  console.log(s.toJsonSchema(chatKit.schema));
-
-  // useAgentContext
-
   return (
     <main
-      className="relative min-h-screen w-screen bg-slate-950 text-slate-100"
+      className="flex h-dvh w-full flex-col overflow-hidden bg-[var(--background)] text-[var(--foreground)]"
       style={
         {
-          "--copilot-kit-primary-color": themeColor,
-          "--copilot-kit-contrast-color": "#0b1120",
-          "--copilot-kit-background-color": "#0b1120",
-          "--copilot-kit-input-background-color": "#111827",
-          "--copilot-kit-secondary-color": "#1f2937",
-          "--copilot-kit-secondary-contrast-color": "#e2e8f0",
-          "--copilot-kit-separator-color": "#1f2937",
-          "--copilot-kit-muted-color": "#94a3b8",
-          "--copilot-kit-shadow-md": "0 12px 24px -12px rgba(0,0,0,0.6)",
+          "--copilot-kit-primary-color": "var(--sunset-orange)",
+          "--copilot-kit-contrast-color": "var(--gray-dark)",
+          "--copilot-kit-background-color": "var(--vanilla-ivory)",
+          "--copilot-kit-input-background-color": "white",
+          "--copilot-kit-secondary-color": "var(--sky-blue-light)",
+          "--copilot-kit-secondary-contrast-color": "var(--gray-dark)",
+          "--copilot-kit-separator-color": "rgba(164,163,161,0.28)",
+          "--copilot-kit-muted-color": "var(--gray)",
+          "--copilot-kit-shadow-md":
+            "0 16px 32px -20px rgba(119, 70, 37, 0.32)",
         } as CopilotKitCSSProperties
       }
     >
-      <a
-        href="/parser"
-        className="absolute right-6 top-6 z-10 rounded-full border border-slate-800 bg-slate-900/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-200 transition hover:border-slate-600 hover:text-white"
-      >
-        Parser Demo
-      </a>
-      <a
-        href="/ui-renderer"
-        className="absolute right-6 top-16 z-10 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-200 transition hover:border-emerald-400 hover:text-emerald-100"
-      >
-        UI Renderer
-      </a>
-      <CopilotChat
-        disableSystemMessage={true}
-        RenderMessage={CustomMessageRenderer}
-        className="h-screen w-screen"
-        labels={{
-          title: "Popup Assistant",
-        }}
-      ></CopilotChat>
+      <AppHeader active="chat" title="Weather Assistant" />
+      <div className="mx-auto flex min-h-0 h-full w-full max-w-[900px] flex-col">
+        <CopilotChat
+          disableSystemMessage={true}
+          RenderMessage={CustomMessageRenderer}
+          className="chat-page min-h-0 h-full w-full flex-1 overflow-hidden"
+          labels={{
+            title: "Popup Assistant",
+          }}
+        />
+      </div>
     </main>
   );
 }

@@ -1,14 +1,13 @@
-import { useEffect } from "react";
-import { memo } from "react";
+import { useEffect, memo } from "react";
+import { Squircle } from "./squircle";
 
-// Simple sun icon for the weather card
 function SunIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      className="w-14 h-14 text-yellow-200"
+      className="h-14 w-14 text-[var(--sunshine-yellow)]"
     >
       <circle cx="12" cy="12" r="5" />
       <path
@@ -20,8 +19,6 @@ function SunIcon() {
   );
 }
 
-// Weather card component where the location and themeColor are based on what the agent
-// sets via tool calls.
 export const WeatherCard = memo(function WeatherCard({
   location,
   themeColor,
@@ -45,43 +42,48 @@ export const WeatherCard = memo(function WeatherCard({
   }, []);
 
   return (
-    <div
+    <Squircle
+      squircle="30"
       style={{ backgroundColor: themeColor, overflow: "hidden" }}
-      className="rounded-xl shadow-xl mt-6 mb-4 max-w-md w-full weather-card-enter"
+      borderWidth={2}
+      borderColor="rgba(255, 255, 255, 0.55)"
+      className="weather-card-enter mb-4 mt-6 w-full max-w-md shadow-[0_16px_35px_-20px_rgba(94,92,90,0.45)]"
     >
-      <div className="bg-white/20 p-4 w-full">
+      <div className="w-full bg-white/72 p-5 text-[var(--gray-dark)] backdrop-blur-md">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold text-white capitalize">
+            <h3 className="text-xl font-bold capitalize text-[var(--gray-dark)]">
               {location}
             </h3>
-            <p className="text-white">Current Weather</p>
+            <p className="text-[var(--gray-dark)]/75">Current Weather</p>
           </div>
           <SunIcon />
         </div>
 
         <div className="mt-4 flex items-end justify-between">
-          <div className="text-3xl font-bold text-white">{temperature}°</div>
-          <div className="text-sm text-white">Clear skies</div>
+          <div className="text-3xl font-bold text-[var(--gray-dark)]">
+            {temperature}°
+          </div>
+          <div className="text-sm text-[var(--gray-dark)]/80">Clear skies</div>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-white">
+        <div className="mt-4 border-t border-[var(--gray-dark)]/14 pt-4">
           <div className="grid grid-cols-3 gap-2 text-center">
             <div>
-              <p className="text-white text-xs">Humidity</p>
-              <p className="text-white font-medium">{humidity}%</p>
+              <p className="text-xs text-[var(--gray-dark)]/70">Humidity</p>
+              <p className="font-semibold text-[var(--gray-dark)]">{humidity}%</p>
             </div>
             <div>
-              <p className="text-white text-xs">Wind</p>
-              <p className="text-white font-medium">{windSpeed} mph</p>
+              <p className="text-xs text-[var(--gray-dark)]/70">Wind</p>
+              <p className="font-semibold text-[var(--gray-dark)]">{windSpeed} mph</p>
             </div>
             <div>
-              <p className="text-white text-xs">Feels Like</p>
-              <p className="text-white font-medium">{feelsLike}°</p>
+              <p className="text-xs text-[var(--gray-dark)]/70">Feels Like</p>
+              <p className="font-semibold text-[var(--gray-dark)]">{feelsLike}°</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Squircle>
   );
 });

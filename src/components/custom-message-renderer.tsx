@@ -3,6 +3,7 @@ import type { AssistantMessage } from "@ag-ui/core";
 import { useChatKit } from "./chat/chat-kit";
 import { useJsonParser } from "@hashbrownai/react";
 import { memo } from "react";
+import { Squircle } from "./squircle";
 
 function normalizeContent(content: unknown) {
   if (typeof content === "string") return content;
@@ -11,6 +12,65 @@ function normalizeContent(content: unknown) {
   } catch {
     return String(content);
   }
+}
+
+function toObject(value: unknown): Record<string, unknown> | null {
+  if (!value) return null;
+  if (typeof value === "object") return value as Record<string, unknown>;
+  if (typeof value !== "string") return null;
+  try {
+    const parsed = JSON.parse(value);
+    return typeof parsed === "object" && parsed
+      ? (parsed as Record<string, unknown>)
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function getLocation(value: unknown): string | null {
+  if (!value) return null;
+  if (typeof value === "string" && value.trim().length > 0) {
+    return value.split(",")[0]?.trim() ?? null;
+  }
+  if (typeof value !== "object") return null;
+  const input = value as Record<string, unknown>;
+  const direct =
+    getLocation(input.location) ??
+    getLocation(input.city) ??
+    getLocation(input.place) ??
+    getLocation(input.query);
+  if (direct) return direct;
+  return (
+    getLocation(input.args) ??
+    getLocation(input.input) ??
+    getLocation(input.props)
+  );
+}
+
+function humanizeToolName(name: string): string {
+  return name
+    .replace(/[_-]+/g, " ")
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .trim()
+    .toLowerCase();
+}
+
+function getToolStatusText(message: RenderMessageProps["message"]): string {
+  const toolName = (message as { toolName?: string }).toolName;
+  const payload = toObject(message.content);
+  const location = getLocation(payload);
+
+  if (toolName?.toLowerCase().includes("weather")) {
+    return location ? `Checking weather for ${location}` : "Checking weather";
+  }
+  if (toolName) {
+    return `Running ${humanizeToolName(toolName)}`;
+  }
+  if (location) {
+    return `Checking weather for ${location}`;
+  }
+  return "Running tool";
 }
 
 const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
@@ -29,15 +89,9 @@ const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
   if (!value) return null;
 
   return (
-    <div className="flex w-full justify-start mt-2">
-      <div className="w-full max-w-[72ch] rounded-2xl border border-emerald-300/40 bg-emerald-950/80 px-4 py-3 text-sm text-white shadow-lg shadow-emerald-500/20">
-        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-emerald-100">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-200" />
-          Assistant
-        </div>
-        <div className="mt-2 whitespace-pre-wrap text-[15px] font-medium leading-6 text-white [&_*]:text-white">
-          {kit.render(value)}
-        </div>
+    <div className="mt-2 flex w-full justify-start">
+      <div className="magic-text-output w-full px-1 py-1">
+        {kit.render(value)}
       </div>
     </div>
   );
@@ -49,24 +103,13 @@ export function CustomMessageRenderer({ message }: RenderMessageProps) {
   }
   if (message.role === "tool") {
     return (
-      <div className="flex w-full justify-start mb-3">
-        <div className="w-full max-w-[72ch] rounded-2xl border border-sky-500/30 bg-sky-500/10 px-4 py-3 text-xs text-sky-50 shadow-lg shadow-sky-500/10 backdrop-blur">
-          <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.25em] text-sky-200/80">
-            <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-300" />
-              Tool Result
-            </span>
-            <span className="text-[9px] text-sky-300/70">
-              call {message.toolCallId}
-            </span>
-          </div>
-          <pre className="mt-2 whitespace-pre-wrap rounded-lg bg-slate-950/60 p-3 text-[12px] leading-5 text-sky-100/90">
-            {normalizeContent(message.content)}
-          </pre>
+      <div className="mb-2 flex w-full justify-start">
+        <div className="tool-call-enter max-w-[72ch] text-[13px] leading-5 text-[var(--gray)]">
+          {getToolStatusText(message)}
           {message.error ? (
-            <div className="mt-2 rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-[11px] text-rose-100">
-              {message.error}
-            </div>
+            <span className="ml-2 text-[var(--indian-red-dark)]">
+              ({message.error})
+            </span>
           ) : null}
         </div>
       </div>
@@ -74,15 +117,15 @@ export function CustomMessageRenderer({ message }: RenderMessageProps) {
   }
   return (
     <div className="flex w-full justify-end">
-      <div className="w-full max-w-[64ch] rounded-2xl border border-slate-700/80 bg-slate-900/80 px-4 py-3 text-sm text-slate-100 shadow-lg shadow-slate-950/30 backdrop-blur">
-        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-          User
-        </div>
-        <pre className="mt-2 whitespace-pre-wrap text-[15px] leading-6 text-slate-100">
+      <Squircle
+        squircle="22"
+        borderWidth={0}
+        className="w-full max-w-[64ch] bg-[var(--sky-blue-light)] px-4 py-3 text-sm text-[var(--gray-dark)] shadow-[0_12px_26px_-20px_rgba(100,175,181,0.52)]"
+      >
+        <pre className="whitespace-pre-wrap text-[15px] leading-6 text-[var(--gray-dark)]">
           {normalizeContent(message.content)}
         </pre>
-      </div>
+      </Squircle>
     </div>
   );
 }

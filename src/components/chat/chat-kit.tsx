@@ -1,84 +1,72 @@
 import { s, prompt } from "@hashbrownai/core";
-import { exposeComponent, useUiKit } from "@hashbrownai/react";
+import { exposeComponent, exposeMarkdown, useUiKit } from "@hashbrownai/react";
 import { Paragraph } from "./paragraph";
 import { ListItem } from "./list-item";
 import { OrderedList } from "./ordered-list";
 import { UnorderedList } from "./unordered-list";
 import { WeatherCard } from "../weather";
+import { Squircle } from "../squircle";
 
 function WeatherCardFallback() {
   return (
-    <div className="mt-6 mb-4 w-full max-w-md rounded-xl bg-sky-400/30 shadow-xl">
-      <div className="relative h-full w-full overflow-hidden rounded-xl bg-white/20 p-4 weather-card-fallback">
+    <Squircle
+      squircle="30"
+      className="mb-4 mt-6 w-full max-w-md bg-[var(--sky-blue)]/35 shadow-[0_16px_35px_-20px_rgba(94,92,90,0.35)]"
+      borderWidth={2}
+      borderColor="rgba(255, 255, 255, 0.55)"
+    >
+      <div className="weather-card-fallback relative h-full w-full overflow-hidden bg-white/28 p-5">
         <div className="flex items-center justify-between">
           <div className="space-y-2">
-            <div className="h-7 w-40 rounded bg-white/40 weather-card-fallback-block" />
-            <div className="h-5 w-28 rounded bg-white/30 weather-card-fallback-block" />
+            <div className="weather-card-fallback-block h-7 w-40 rounded bg-white/45" />
+            <div className="weather-card-fallback-block h-5 w-28 rounded bg-white/35" />
           </div>
-          <div className="h-14 w-14 rounded-full bg-white/30 weather-card-fallback-block" />
+          <div className="weather-card-fallback-block h-14 w-14 rounded-full bg-white/35" />
         </div>
 
         <div className="mt-4 flex items-end justify-between">
-          <div className="h-10 w-16 rounded bg-white/40 weather-card-fallback-block" />
-          <div className="h-5 w-20 rounded bg-white/30 weather-card-fallback-block" />
+          <div className="weather-card-fallback-block h-10 w-16 rounded bg-white/45" />
+          <div className="weather-card-fallback-block h-5 w-20 rounded bg-white/35" />
         </div>
 
-        <div className="mt-4 border-t border-white/40 pt-4">
+        <div className="mt-4 border-t border-white/50 pt-4">
           <div className="grid grid-cols-3 gap-2">
             <div className="space-y-2">
-              <div className="mx-auto h-3 w-12 rounded bg-white/25 weather-card-fallback-block" />
-              <div className="mx-auto h-5 w-10 rounded bg-white/40 weather-card-fallback-block" />
+              <div className="weather-card-fallback-block mx-auto h-3 w-12 rounded bg-white/30" />
+              <div className="weather-card-fallback-block mx-auto h-5 w-10 rounded bg-white/45" />
             </div>
             <div className="space-y-2">
-              <div className="mx-auto h-3 w-10 rounded bg-white/25 weather-card-fallback-block" />
-              <div className="mx-auto h-5 w-10 rounded bg-white/40 weather-card-fallback-block" />
+              <div className="weather-card-fallback-block mx-auto h-3 w-10 rounded bg-white/30" />
+              <div className="weather-card-fallback-block mx-auto h-5 w-10 rounded bg-white/45" />
             </div>
             <div className="space-y-2">
-              <div className="mx-auto h-3 w-12 rounded bg-white/25 weather-card-fallback-block" />
-              <div className="mx-auto h-5 w-10 rounded bg-white/40 weather-card-fallback-block" />
+              <div className="weather-card-fallback-block mx-auto h-3 w-12 rounded bg-white/30" />
+              <div className="weather-card-fallback-block mx-auto h-5 w-10 rounded bg-white/45" />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Squircle>
   );
 }
 
 export function useChatKit() {
   return useUiKit({
     examples: prompt`
+      # Mixing Weather Cards and Markdown:
       <ui>
-        <p>with some text</p>
+        <Markdown children="Here's the weather in Huntsville..."/>
+        <weather themeColor="blue" location="Huntsville, Al" temperature="0" humidity="0" windSpeed="0" feelsLike="0" />
+        <Markdown children="Here's the weather in Chicago..."/>
+        <weather themeColor="blue" location="Chicago, IL" temperature="0" humidity="0" windSpeed="0" feelsLike="0" />
       </ui>
     `,
     components: [
-      exposeComponent(Paragraph, {
-        name: "p",
-        description: "A paragraph of text",
-        children: "text",
-      }),
-      exposeComponent(OrderedList, {
-        name: "ol",
-        description: "An ordered list",
-        children: "any",
-      }),
-      exposeComponent(UnorderedList, {
-        name: "ul",
-        description: "An unordered list",
-        children: "any",
-      }),
-      exposeComponent(ListItem, {
-        name: "li",
-        description: "A list item",
-        children: "text",
-      }),
+      exposeMarkdown(),
       exposeComponent(WeatherCard, {
         name: "weather",
         description: "Shows the weather for a given location",
         fallback: () => <WeatherCardFallback />,
-        // fallback: (...args: any[]) => (
-        //   <pre>{JSON.stringify(args, null, 2)}</pre>
-        // ),
         props: {
           themeColor: s.string("The theme to use for the weather card"),
           location: s.streaming.string("The location to get the weather for"),
