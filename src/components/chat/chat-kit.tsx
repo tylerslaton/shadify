@@ -1,9 +1,5 @@
 import { s, prompt } from "@hashbrownai/core";
 import { exposeComponent, exposeMarkdown, useUiKit } from "@hashbrownai/react";
-import { Paragraph } from "./paragraph";
-import { ListItem } from "./list-item";
-import { OrderedList } from "./ordered-list";
-import { UnorderedList } from "./unordered-list";
 import { WeatherCard } from "../weather";
 import { Squircle } from "../squircle";
 
@@ -58,8 +54,10 @@ export function useChatKit() {
         <Markdown children="Here's the weather in Huntsville..."/>
         <weather themeColor="blue" location="Huntsville, Al" temperature="0" humidity="0" windSpeed="0" feelsLike="0" />
         <Markdown children="Here's the weather in Chicago..."/>
-        <weather themeColor="blue" location="Chicago, IL" temperature="0" humidity="0" windSpeed="0" feelsLike="0" />
+        <weather themeColor="orange" location="Chicago, IL" temperature="0" humidity="0" windSpeed="0" feelsLike="0" />
       </ui>
+
+      Hint: use a variety of theme colors based on the temperature.
     `,
     components: [
       exposeMarkdown(),

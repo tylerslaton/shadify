@@ -55,6 +55,13 @@ export default function ParserDemoPage() {
   const [cursor, setCursor] = useState(0);
   const jsonSlice = jsonDocument.slice(0, cursor);
   const { parserState, value } = useJsonParser(jsonSlice, schema);
+  const renderCountRef = useRef(0);
+
+  const listOfFeatures = useMemo(() => value?.features, [value]);
+
+  useEffect(() => {
+    console.log("Features Changed:", ++renderCountRef.current, listOfFeatures);
+  }, [listOfFeatures]);
 
   const ticks = useMemo(() => Array.from({ length: jsonDocument.length }), []);
 

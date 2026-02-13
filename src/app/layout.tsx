@@ -5,8 +5,13 @@ import "./globals.css";
 import "@copilotkit/react-ui/styles.css";
 
 export const metadata: Metadata = {
-  title: "Hashbrown Copilot Demo",
+  title: "Hashbrown with CopilotKit",
   description: "Light theme demo with squircle UI surfaces",
+  icons: {
+    icon: "/hashbrown.svg",
+    shortcut: "/hashbrown.svg",
+    apple: "/hashbrown.svg",
+  },
 };
 
 export default function RootLayout({
