@@ -2,8 +2,10 @@ import type { RenderMessageProps } from "@copilotkit/react-ui";
 import type { AssistantMessage } from "@ag-ui/core";
 import { useChatKit } from "./chat/chat-kit";
 import { useJsonParser } from "@hashbrownai/react";
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Squircle } from "./squircle";
+import { ExportPanel } from "./export-panel";
+import { CodeIcon } from "lucide-react";
 
 function normalizeContent(content: unknown) {
   if (typeof content === "string") return content;
@@ -83,15 +85,40 @@ const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
     message.content ?? "",
     kit.schema,
   );
+  const [exportOpen, setExportOpen] = useState(false);
 
   if (parserState.isComplete) console.log(message.content);
 
   if (!value) return null;
 
+  // Check if the tree contains non-markdown components
+  const tree = (value as Record<string, unknown>).ui;
+  const hasComponents = Array.isArray(tree) && tree.some((node) => {
+    if (!node || typeof node !== "object") return false;
+    const keys = Object.keys(node as Record<string, unknown>);
+    return keys.length > 0 && keys[0] !== "markdown";
+  });
+
   return (
-    <div className="mt-2 flex w-full justify-start">
+    <div className="group/msg mt-2 flex w-full justify-start">
       <div className="magic-text-output w-full px-1 py-1">
         {kit.render(value)}
+        {hasComponents && parserState.isComplete && (
+          <>
+            <button
+              onClick={() => setExportOpen(true)}
+              className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-[var(--surface)] px-2.5 py-1.5 text-xs font-medium text-[var(--gray)] transition-colors hover:bg-[var(--surface-elevated)] hover:text-[var(--foreground)]"
+            >
+              <CodeIcon className="size-3.5" />
+              Export Code
+            </button>
+            <ExportPanel
+              open={exportOpen}
+              onOpenChange={setExportOpen}
+              tree={tree as unknown[]}
+            />
+          </>
+        )}
       </div>
     </div>
   );

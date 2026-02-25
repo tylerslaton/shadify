@@ -11,6 +11,7 @@ import {
   MenubarContent,
   MenubarItem,
 } from "../ui/menubar";
+import { CodeBlock } from "../ui/code-block";
 
 function FallBack() {
   return (
@@ -122,6 +123,16 @@ export function useChatKit() {
       menubarTrigger,
       menubarContent,
       menubarItem,
+      exposeComponent(CodeBlock, {
+        name: "code_block",
+        description: "A syntax-highlighted code block for displaying code snippets.",
+        fallback: () => <FallBack />,
+        props: {
+          code: s.streaming.string("The code to display"),
+          language: s.string("Programming language for syntax highlighting, e.g. 'tsx', 'python', 'json'") as any,
+        },
+        children: false,
+      }),
     ],
   });
 }
