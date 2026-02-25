@@ -8,7 +8,8 @@ def _get_client():
 @tool
 def search_internet(query: str):
     """Search the internet for a given query."""
-    return _get_client().search(query)
+    response = _get_client().search(query)
+    return f"response: {response}"
 
 @tool
 def extract_site(website: str):

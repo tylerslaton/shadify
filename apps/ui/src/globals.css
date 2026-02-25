@@ -156,6 +156,11 @@ samp {
   position: relative;
 }
 
+/* Hide CopilotKit's built-in gradient overlay above the input */
+.absolute.pointer-events-none.bg-gradient-to-t.from-white {
+  display: none !important;
+}
+
 .chat-page .copilotKitInputContainer::before {
   content: "";
   position: absolute;

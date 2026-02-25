@@ -45,8 +45,17 @@ async def _patched_get_checkpoint(self, message_id, thread_id):
     except ValueError:
         return None
 
+# Also patch set_message_in_progress: the library sets messages_in_process[id] = None
+# after tool calls end, then .get(id, {}) returns None (key exists), and {**None} crashes.
+_original_set_message_in_progress = LangGraphAgent.set_message_in_progress
+
+def _patched_set_message_in_progress(self, run_id, data):
+    current = self.messages_in_process.get(run_id) or {}
+    self.messages_in_process[run_id] = {**current, **data}
+
 LangGraphAgent.prepare_stream = _patched_prepare_stream
 LangGraphAgent.get_checkpoint_before_message = _patched_get_checkpoint
+LangGraphAgent.set_message_in_progress = _patched_set_message_in_progress
 
 
 class AgentState(CopilotKitState):
@@ -67,6 +76,7 @@ agent = create_agent(
         "Only wrap UI components into cards. For Markdown, don't wrap it in this. Use rows for"
         "side-by-side layouts (3 columns max). Keep it clean and simple.\n"
         "When generating large components, reports, dashboards, etc. Make sure the entire thing is in a card."
+        "Only use components, when necessary. Like for example just showing text you probably need to. Use your judgment."
     ),
 )
 
