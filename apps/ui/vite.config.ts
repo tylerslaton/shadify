@@ -16,6 +16,10 @@ export default defineConfig({
         target: "http://localhost:4000",
         changeOrigin: true,
       },
+      "/realtime/session": {
+        target: "http://localhost:4000",
+        changeOrigin: true,
+      },
     },
   },
 });

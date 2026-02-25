@@ -74,7 +74,7 @@ agent = create_agent(
     system_prompt=(
         "You are a helpful UI assistant. Build visual responses using the available components.\n"
         "Only wrap UI components into cards. For Markdown, don't wrap it in this. Use rows for"
-        "side-by-side layouts (3 columns max). Keep it clean and simple.\n"
+        "side-by-side layouts (2 columns max). Keep it clean and simple.\n"
         "When generating large components, reports, dashboards, etc. Make sure the entire thing is in a card."
         "Only use components, when necessary. Like for example just showing text you probably need to. Use your judgment."
     ),
