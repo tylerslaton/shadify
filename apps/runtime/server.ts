@@ -6,10 +6,13 @@ import {
 } from "@copilotkit/runtime/v2";
 import { LangGraphHttpAgent } from "@copilotkit/runtime/langgraph";
 
+const agentHost = process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123";
+const agentUrl = agentHost.startsWith("http") ? agentHost : `http://${agentHost}`;
+
 const runtime = new CopilotRuntime({
   agents: {
     sample_agent: new LangGraphHttpAgent({
-      url: process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123",
+      url: agentUrl,
     }),
   },
 });
