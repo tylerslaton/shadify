@@ -1,42 +1,15 @@
 {
-  "name": "langgraph-python-starter",
+  "name": "shadify",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev:ui\" \"npm run dev:agent\" --names ui,agent --prefix-colors blue,green --kill-others",
-    "dev:debug": "LOG_LEVEL=debug npm run dev",
-    "dev:agent": "cd agent && npx @langchain/langgraph-cli dev --port 8123 --no-browser",
-    "dev:ui": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "install:agent": "sh ./scripts/setup-agent.sh || scripts\\setup-agent.bat",
-    "postinstall": "npm run install:agent"
-  },
-  "dependencies": {
-    "@copilotkit/react-core": "1.51.4",
-    "@copilotkit/react-ui": "1.51.4",
-    "@copilotkit/runtime": "1.51.4",
-    "@hashbrownai/core": "0.5.0-beta.4",
-    "@hashbrownai/react": "0.5.0-beta.4",
-    "figma-squircle": "^1.1.0",
-    "next": "16.1.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "react18-json-view": "^0.2.9",
-    "streamdown": "^2.1.0"
+    "dev": "concurrently \"pnpm run dev:ui\" \"pnpm run dev:runtime\" \"pnpm run dev:agent\" --names ui,runtime,agent --prefix-colors blue,yellow,green --kill-others",
+    "dev:ui": "pnpm --filter @shadify/ui dev",
+    "dev:runtime": "pnpm --filter @shadify/runtime dev",
+    "dev:agent": "cd apps/agent && npx @langchain/langgraph-cli dev --port 8123 --no-browser"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@langchain/langgraph-cli": "^1.0.4",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "concurrently": "^9.1.2",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.1",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "concurrently": "^9.1.2"
   }
 }
