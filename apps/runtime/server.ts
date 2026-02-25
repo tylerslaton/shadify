@@ -1,4 +1,5 @@
 import { serve } from "@hono/node-server";
+import { cors } from "hono/cors";
 import {
   CopilotRuntime,
   createCopilotEndpointSingleRoute,
@@ -17,6 +18,8 @@ const app = createCopilotEndpointSingleRoute({
   runtime,
   basePath: "/api/copilotkit",
 });
+
+app.use("/*", cors());
 
 const port = Number(process.env.PORT || 4000);
 serve({ fetch: app.fetch, port });
