@@ -15,8 +15,9 @@ from langchain.agents.middleware import before_agent
 from copilotkit import CopilotKitMiddleware, CopilotKitState, LangGraphAGUIAgent
 from ag_ui_langgraph import add_langgraph_fastapi_endpoint
 from src.middleware import apply_structured_output_schema, normalize_context
-from src.weather import get_weather
 from langgraph.checkpoint.memory import MemorySaver
+
+from src.search import search_tools
 
 _ = load_dotenv()
 
@@ -28,18 +29,16 @@ class AgentContext(TypedDict, total=False):
 
 agent = create_agent(
     model="openai:gpt-5.2",
-    tools=[get_weather],
     middleware=[normalize_context, CopilotKitMiddleware(), apply_structured_output_schema],
     context_schema=AgentContext,
+    tools=[*search_tools],
     state_schema=AgentState,
     checkpointer = MemorySaver(),
     system_prompt=(
-        "You are a weather reporter. The user will ask questions about the weather.\n"
-        "Use the get_weather tool for specific locations, then create a full report.\n"
-        "Call the tool with a specific place in the format: City, State, Country.\n"
-        "If the user gives a broad region (e.g., 'North Alabama') choose 2-4\n"
-        "representative cities in that region and fetch each via get_weather.\n"
-        "Present a multi-city report."
+        "You are a helpful UI assistant. Build visual responses using the available components.\n"
+        "Only wrap UI components into cards. For Markdown, don't wrap it in this. Use rows for"
+        "side-by-side layouts (3 columns max). Keep it clean and simple.\n"
+        "When generating large components, reports, dashboards, etc. Make sure the entire thing is in a card."
     ),
 )
 
@@ -51,7 +50,7 @@ add_langgraph_fastapi_endpoint(
     app=app,
     agent=LangGraphAGUIAgent(
         name="sample_agent",
-        description="A weather reporter agent that fetches real-time weather data for locations.",
+        description="A UI assistant that builds rich visual responses using layout, chart, menubar, and card components.",
         graph=graph,
     ),
     path="/",

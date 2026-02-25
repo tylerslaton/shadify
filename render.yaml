@@ -55,6 +55,8 @@ services:
         value: "3.12.6"
       - key: OPENAI_API_KEY
         sync: false
+      - key: TAVILY_API_KEY
+        sync: false
     buildFilter:
       paths:
         - apps/agent/**

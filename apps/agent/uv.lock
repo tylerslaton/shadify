@@ -830,6 +830,7 @@ dependencies = [
     { name = "openai" },
     { name = "pydantic" },
     { name = "python-dotenv" },
+    { name = "tavily-python" },
     { name = "uvicorn" },
 ]
 
@@ -845,6 +846,7 @@ requires-dist = [
     { name = "openai", specifier = ">=1.68.2,<2.0.0" },
     { name = "pydantic", specifier = ">=2.0.0,<3.0.0" },
     { name = "python-dotenv", specifier = ">=1.0.0,<2.0.0" },
+    { name = "tavily-python", specifier = ">=0.7.21" },
     { name = "uvicorn", specifier = ">=0.29.0,<1.0.0" },
 ]
 
@@ -867,6 +869,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ce/20/08dfcd9c983f6a6f4a1000d934b9e6d626cff8d2eeb77a89a68eef20a2b7/starlette-0.46.2.tar.gz", hash = "sha256:7f7361f34eed179294600af672f565727419830b54b7b084efe44bb82d2fccd5", size = 2580846, upload-time = "2025-04-13T13:56:17.942Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/8b/0c/9d30a4ebeb6db2b25a841afbb80f6ef9a854fc3b41be131d249a977b4959/starlette-0.46.2-py3-none-any.whl", hash = "sha256:595633ce89f8ffa71a015caed34a5b2dc1c0cdb3f0f1fbd1e69339cf2abeec35", size = 72037, upload-time = "2025-04-13T13:56:16.21Z" },
+]
+
+[[package]]
+name = "tavily-python"
+version = "0.7.21"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "requests" },
+    { name = "tiktoken" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ff/1f/9d5c4ca7034754d1fc232af64638b905162bdf3012e9629030e3d755856f/tavily_python-0.7.21.tar.gz", hash = "sha256:897bedf9b1c2fad8605be642e417d6c7ec1b79bf6199563477cf69c4313f824a", size = 21813, upload-time = "2026-01-30T16:57:33.186Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3a/39/85e5be4e9a912022f86f38288d1f4dd2d100b60ec75ebf3da37ca0122375/tavily_python-0.7.21-py3-none-any.whl", hash = "sha256:acfb5b62f2d1053d56321b4fb1ddfd2e98bb975cc4446b86b3fe2d3dd0850288", size = 17957, upload-time = "2026-01-30T16:57:32.278Z" },
 ]
 
 [[package]]

@@ -16,7 +16,7 @@ function Row({
     <div
       data-slot="row"
       className={cn(
-        "flex flex-row w-full [&>*]:flex-1 [&>*]:min-w-0",
+        "grid w-full grid-cols-[repeat(auto-fit,minmax(0,1fr))] max-w-full [&>*:nth-child(n+4)]:hidden",
         `gap-${gap}`,
         `items-${align}`,
         `justify-${justify}`,

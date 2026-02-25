@@ -50,7 +50,7 @@
   --radius: 0.75rem;
 
   /* ShadCN semantic tokens → Hashbrown palette */
-  --card: rgba(255, 255, 255, 0.82);
+  --card: rgba(255, 255, 255, 0.92);
   --card-foreground: var(--gray-dark);
   --popover: var(--vanilla-ivory);
   --popover-foreground: var(--gray-dark);
@@ -87,24 +87,37 @@ body {
 }
 
 body {
-  background:
+  background-color: #faf9f2;
+  background-image:
     radial-gradient(
-      circle at 15% 20%,
-      rgba(253, 228, 186, 0.8) 0%,
-      rgba(253, 228, 186, 0) 40%
+      ellipse 600px 400px at 8% 0%,
+      rgba(253, 228, 186, 0.35) 0%,
+      transparent 70%
     ),
     radial-gradient(
-      circle at 85% 12%,
-      rgba(216, 236, 239, 0.9) 0%,
-      rgba(216, 236, 239, 0) 42%
+      ellipse 500px 350px at 92% 5%,
+      rgba(216, 236, 239, 0.4) 0%,
+      transparent 70%
     ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.7) 0%,
-      var(--vanilla-ivory) 55%
+    radial-gradient(
+      ellipse 400px 400px at 50% 100%,
+      rgba(253, 228, 186, 0.2) 0%,
+      transparent 70%
     );
   color: var(--foreground);
   font-family: var(--font-body);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
 h1,

@@ -14,9 +14,9 @@ function Chat() {
   });
 
   return (
-    <main className="flex h-dvh w-full flex-col overflow-hidden bg-[--background] text-[--foreground]">
-      <AppHeader title="Weather Assistant" />
-      <div className="mx-auto flex min-h-0 h-full w-full max-w-225 flex-col">
+    <main className="relative z-10 flex h-dvh w-full flex-col overflow-hidden text-[--foreground]">
+      <AppHeader title="Shadify" />
+      <div className="mx-auto flex min-h-0 h-full w-full max-w-3xl flex-col px-4">
         <CopilotChat
           messageView={{
             assistantMessage: CustomMessageRenderer as any,

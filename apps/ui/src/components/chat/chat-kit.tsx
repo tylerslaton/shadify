@@ -105,7 +105,7 @@ export function useChatKit() {
       exposeMarkdown(),
       exposeComponent(Card, {
         name: "card",
-        description: "Card to wrap content.",
+        description: "Card to wrap generative UI content. For only Markdown, don't wrap it in this.",
         fallback: () => <FallBack />,
         children: "any",
       }),
@@ -113,7 +113,6 @@ export function useChatKit() {
         name: "calendar",
         description: "Calendar to display events.",
         fallback: () => <FallBack />,
-        children: "any",
       }),
       row,
       column,
