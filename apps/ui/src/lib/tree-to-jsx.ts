@@ -10,6 +10,10 @@ const COMPONENT_MAP: Record<string, { component: string; path: string }> = {
   menubar_trigger: { component: "MenubarTrigger", path: "@/components/ui/menubar" },
   menubar_content: { component: "MenubarContent", path: "@/components/ui/menubar" },
   menubar_item: { component: "MenubarItem", path: "@/components/ui/menubar" },
+  input: { component: "Input", path: "@/components/ui/input" },
+  button: { component: "Button", path: "@/components/ui/button" },
+  select: { component: "SimpleSelect", path: "@/components/ui/simple-select" },
+  label: { component: "Label", path: "@/components/ui/label" },
 };
 
 function formatPropValue(value: unknown): string {

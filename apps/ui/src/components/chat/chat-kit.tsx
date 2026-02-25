@@ -12,6 +12,10 @@ import {
   MenubarItem,
 } from "../ui/menubar";
 import { CodeBlock } from "../ui/code-block";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { SimpleSelect } from "../ui/simple-select";
+import { Label } from "../ui/label";
 
 function FallBack() {
   return (
@@ -132,6 +136,42 @@ export function useChatKit() {
           language: s.string("Programming language for syntax highlighting, e.g. 'tsx', 'python', 'json'") as any,
         },
         children: false,
+      }),
+      exposeComponent(Input, {
+        name: "input",
+        description: "A text input field for forms.",
+        fallback: () => <FallBack />,
+        props: {
+          placeholder: s.string("Placeholder text shown when empty") as any,
+          type: s.string("Input type: 'text', 'email', 'password', 'number', 'url'") as any,
+        },
+        children: false,
+      }),
+      exposeComponent(Button, {
+        name: "button",
+        description: "A clickable button. Use variant to control style.",
+        fallback: () => <FallBack />,
+        props: {
+          variant: s.enumeration("Button style", ["default", "destructive", "outline", "secondary", "ghost", "link"] as const) as any,
+          size: s.enumeration("Button size", ["default", "sm", "lg", "icon"] as const) as any,
+        },
+        children: "text",
+      }),
+      exposeComponent(SimpleSelect, {
+        name: "select",
+        description: "A dropdown select with a list of string options.",
+        fallback: () => <FallBack />,
+        props: {
+          placeholder: s.string("Placeholder text shown when nothing is selected") as any,
+          options: s.array("The selectable options", s.string("An option")),
+        },
+        children: false,
+      }),
+      exposeComponent(Label, {
+        name: "label",
+        description: "A text label for form fields.",
+        fallback: () => <FallBack />,
+        children: "text",
       }),
     ],
   });
