@@ -21,29 +21,35 @@ type ChartType = "bar" | "line" | "area"
 
 function SimpleChart({
   type = "bar",
-  data,
-  dataKey,
-  categoryKey,
+  labels,
+  values,
+  label,
   color,
 }: {
   type?: ChartType
-  data: Record<string, unknown>[]
-  dataKey: string
-  categoryKey: string
+  labels: string[]
+  values: number[]
+  label?: string
   color?: string
 }) {
+  const displayLabel = label || "value"
   const chartColor = color || "var(--sunshine-yellow)"
 
+  const data = labels.map((l, i) => ({
+    category: l,
+    series: values[i] ?? 0,
+  }))
+
   const config: ChartConfig = {
-    [dataKey]: {
-      label: dataKey,
+    series: {
+      label: displayLabel,
       color: chartColor,
     },
   }
 
   const sharedProps = {
     data,
-    margin: { top: 8, right: 8, bottom: 0, left: 0 },
+    margin: { top: 8, right: 8, bottom: 0, left: -16 },
   }
 
   return (
@@ -51,26 +57,26 @@ function SimpleChart({
       {type === "bar" ? (
         <BarChart {...sharedProps}>
           <CartesianGrid vertical={false} />
-          <XAxis dataKey={categoryKey} tickLine={false} axisLine={false} tickMargin={8} />
+          <XAxis dataKey="category" tickLine={false} axisLine={false} tickMargin={8} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Bar dataKey={dataKey} fill={`var(--color-${dataKey})`} radius={4} />
+          <Bar dataKey="series" fill="var(--color-series)" radius={4} />
         </BarChart>
       ) : type === "line" ? (
         <LineChart {...sharedProps}>
           <CartesianGrid vertical={false} />
-          <XAxis dataKey={categoryKey} tickLine={false} axisLine={false} tickMargin={8} />
+          <XAxis dataKey="category" tickLine={false} axisLine={false} tickMargin={8} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Line type="monotone" dataKey={dataKey} stroke={`var(--color-${dataKey})`} strokeWidth={2} dot={false} />
+          <Line type="monotone" dataKey="series" stroke="var(--color-series)" strokeWidth={2} dot={false} />
         </LineChart>
       ) : (
         <AreaChart {...sharedProps}>
           <CartesianGrid vertical={false} />
-          <XAxis dataKey={categoryKey} tickLine={false} axisLine={false} tickMargin={8} />
+          <XAxis dataKey="category" tickLine={false} axisLine={false} tickMargin={8} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Area type="monotone" dataKey={dataKey} fill={`var(--color-${dataKey})`} fillOpacity={0.3} stroke={`var(--color-${dataKey})`} strokeWidth={2} />
+          <Area type="monotone" dataKey="series" fill="var(--color-series)" fillOpacity={0.3} stroke="var(--color-series)" strokeWidth={2} />
         </AreaChart>
       )}
     </ChartContainer>

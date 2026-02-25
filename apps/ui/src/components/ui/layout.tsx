@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils"
 
 function Row({
   className,
-  gap = "2",
-  align = "center",
+  gap = "4",
+  align = "stretch",
   justify = "start",
   ...props
 }: React.ComponentProps<"div"> & {
@@ -16,7 +16,7 @@ function Row({
     <div
       data-slot="row"
       className={cn(
-        "flex flex-row",
+        "flex flex-row w-full [&>*]:flex-1 [&>*]:min-w-0",
         `gap-${gap}`,
         `items-${align}`,
         `justify-${justify}`,
@@ -29,7 +29,7 @@ function Row({
 
 function Column({
   className,
-  gap = "2",
+  gap = "4",
   align = "stretch",
   justify = "start",
   ...props
@@ -42,7 +42,7 @@ function Column({
     <div
       data-slot="column"
       className={cn(
-        "flex flex-col",
+        "flex flex-col w-full",
         `gap-${gap}`,
         `items-${align}`,
         `justify-${justify}`,

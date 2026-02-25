@@ -48,13 +48,13 @@ const column = exposeComponent(Column, {
 
 const simpleChart = exposeComponent(SimpleChart, {
   name: "chart",
-  description: "A chart that visualizes data. Supports bar, line, and area chart types.",
+  description: "A chart that visualizes data. Supports bar, line, and area chart types. Provide parallel arrays of labels (x-axis) and values (y-axis).",
   fallback: () => <FallBack />,
   props: {
     type: s.enumeration("Chart type", ["bar", "line", "area"] as const) as any,
-    data: s.array("Array of data objects", s.object("A data point", {})),
-    dataKey: s.string("The key in each data object for the y-axis values"),
-    categoryKey: s.string("The key in each data object for the x-axis labels"),
+    labels: s.array("Category labels for the x-axis", s.string("A label")),
+    values: s.array("Numeric values for the y-axis, same length as labels", s.number("A value")),
+    label: s.string("Name for the data series, shown in tooltip") as any,
     color: s.string("CSS color for the chart, e.g. 'var(--sunshine-yellow)' or '#ff0000'") as any,
   },
   children: false,
