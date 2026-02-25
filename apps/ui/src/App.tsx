@@ -55,5 +55,5 @@ export function Page() {
     value: s.toJsonSchema(chatKit.schema),
   });
 
-  return hash === "#/voice" ? <VoicePage /> : <Chat />
+   return <Chat />
 }
