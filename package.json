@@ -14,9 +14,9 @@
     "postinstall": "npm run install:agent"
   },
   "dependencies": {
-    "@copilotkit/react-core": "1.51.0",
-    "@copilotkit/react-ui": "1.51.0",
-    "@copilotkit/runtime": "1.51.0",
+    "@copilotkit/react-core": "1.51.4",
+    "@copilotkit/react-ui": "1.51.4",
+    "@copilotkit/runtime": "1.51.4",
     "@hashbrownai/core": "0.5.0-beta.4",
     "@hashbrownai/react": "0.5.0-beta.4",
     "figma-squircle": "^1.1.0",
