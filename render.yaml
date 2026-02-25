@@ -26,7 +26,7 @@ services:
   - type: web
     name: shadify-runtime
     runtime: node
-    plan: free
+    plan: starter
     buildCommand: corepack enable && pnpm install --no-frozen-lockfile && npm install -g tsx
     startCommand: tsx apps/runtime/server.ts
     envVars:
@@ -40,7 +40,7 @@ services:
         fromService:
           name: shadify-agent
           type: web
-          property: host
+          property: hostport
     buildFilter:
       paths:
         - apps/runtime/**
@@ -51,7 +51,7 @@ services:
   - type: web
     name: shadify-agent
     runtime: python
-    plan: free
+    plan: starter
     rootDir: apps/agent
     buildCommand: pip install uv && uv sync
     startCommand: uv run uvicorn main:app --host 0.0.0.0 --port $PORT
