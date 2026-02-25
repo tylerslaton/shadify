@@ -2,7 +2,7 @@ import json
 
 from collections.abc import Mapping
 from langchain.agents.structured_output import ProviderStrategy
-from langchain.agents.middleware import wrap_model_call
+from langchain.agents.middleware import wrap_model_call, before_agent
 
 @wrap_model_call
 async def apply_structured_output_schema(request, handler):
@@ -41,3 +41,16 @@ async def apply_structured_output_schema(request, handler):
             response_format=ProviderStrategy(schema=schema, strict=True),
         )
     return await handler(request)
+
+@before_agent
+def normalize_context(state, runtime):
+    """Convert Pydantic Context objects to dicts so CopilotKitMiddleware can JSON-serialize them."""
+    copilotkit_state = state.get("copilotkit", {})
+    context = copilotkit_state.get("context")
+    if context and isinstance(context, list):
+        normalized = [
+            item.model_dump() if hasattr(item, "model_dump") else item
+            for item in context
+        ]
+        return {"copilotkit": {**copilotkit_state, "context": normalized}}
+    return None

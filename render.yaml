@@ -1,0 +1,65 @@
+services:
+  # UI - Vite + React static site
+  - type: web
+    name: shadify-ui
+    runtime: static
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter @shadify/ui build
+    staticPublishPath: ./apps/ui/dist
+    routes:
+      - type: rewrite
+        source: /api/copilotkit/*
+        destination: https://shadify-runtime.onrender.com/api/copilotkit/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+    buildFilter:
+      paths:
+        - apps/ui/**
+        - package.json
+        - pnpm-lock.yaml
+
+  # Runtime - Hono API server
+  - type: web
+    name: shadify-runtime
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: npx tsx apps/runtime/server.ts
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: LANGGRAPH_DEPLOYMENT_URL
+        fromService:
+          name: shadify-agent
+          type: web
+          property: host
+      - key: LANGSMITH_API_KEY
+        sync: false
+    buildFilter:
+      paths:
+        - apps/runtime/**
+        - package.json
+        - pnpm-lock.yaml
+
+  # Agent - Python LangGraph + FastAPI
+  - type: web
+    name: shadify-agent
+    runtime: python
+    plan: free
+    rootDir: apps/agent
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: LANGSMITH_API_KEY
+        sync: false
+    buildFilter:
+      paths:
+        - apps/agent/**

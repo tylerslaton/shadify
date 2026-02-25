@@ -6,7 +6,7 @@
     "dev": "concurrently \"pnpm run dev:ui\" \"pnpm run dev:runtime\" \"pnpm run dev:agent\" --names ui,runtime,agent --prefix-colors blue,yellow,green --kill-others",
     "dev:ui": "pnpm --filter @shadify/ui dev",
     "dev:runtime": "pnpm --filter @shadify/runtime dev",
-    "dev:agent": "cd apps/agent && npx @langchain/langgraph-cli dev --port 8123 --no-browser"
+    "dev:agent": "cd apps/agent && uv sync && uv run python main.py"
   },
   "devDependencies": {
     "@langchain/langgraph-cli": "^1.0.4",

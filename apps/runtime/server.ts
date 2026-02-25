@@ -3,14 +3,12 @@ import {
   CopilotRuntime,
   createCopilotEndpointSingleRoute,
 } from "@copilotkit/runtime/v2";
-import { LangGraphAgent } from "@copilotkit/runtime/langgraph";
+import { LangGraphHttpAgent } from "@copilotkit/runtime/langgraph";
 
 const runtime = new CopilotRuntime({
   agents: {
-    sample_agent: new LangGraphAgent({
-      deploymentUrl: process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123",
-      graphId: "sample_agent",
-      langsmithApiKey: process.env.LANGSMITH_API_KEY || "",
+    sample_agent: new LangGraphHttpAgent({
+      url: process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123",
     }),
   },
 });
