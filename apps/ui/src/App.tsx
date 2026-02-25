@@ -30,7 +30,7 @@ function Chat() {
 export function App() {
   return (
     <CopilotKit
-      runtimeUrl="http://localhost:4000/api/copilotkit"
+      runtimeUrl={import.meta.env.VITE_RUNTIME_URL || "/api/copilotkit"}
       agent="sample_agent"
       showDevConsole={false}
     >

@@ -26,8 +26,8 @@ services:
     name: shadify-runtime
     runtime: node
     plan: free
-    buildCommand: corepack enable && pnpm install --no-frozen-lockfile
-    startCommand: npx tsx apps/runtime/server.ts
+    buildCommand: corepack enable && pnpm install --no-frozen-lockfile && npm install -g tsx
+    startCommand: tsx apps/runtime/server.ts
     envVars:
       - key: NODE_VERSION
         value: "20"
