@@ -3,7 +3,6 @@ services:
   - type: web
     name: shadify-ui
     runtime: static
-    plan: free
     buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter @shadify/ui build
     staticPublishPath: ./apps/ui/dist
     routes:
