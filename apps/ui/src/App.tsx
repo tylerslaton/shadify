@@ -4,7 +4,6 @@ import { useAgentContext, CopilotChat } from "@copilotkit/react-core/v2";
 import { CustomMessageRenderer } from "@/components/custom-message-renderer";
 import { AppHeader } from "@/components/app-header";
 import { useChatKit } from "@/components/chat/chat-kit";
-import { VoicePage } from "@/components/voice/voice-page";
 import { s } from "@hashbrownai/core";
 
 function Chat() {
