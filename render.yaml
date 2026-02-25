@@ -36,8 +36,6 @@ services:
           name: shadify-agent
           type: web
           property: host
-      - key: LANGSMITH_API_KEY
-        sync: false
     buildFilter:
       paths:
         - apps/runtime/**
@@ -56,8 +54,6 @@ services:
       - key: PYTHON_VERSION
         value: "3.12"
       - key: OPENAI_API_KEY
-        sync: false
-      - key: LANGSMITH_API_KEY
         sync: false
     buildFilter:
       paths:
