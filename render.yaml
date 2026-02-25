@@ -15,6 +15,8 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
     buildFilter:
       paths:
         - apps/ui/**
@@ -31,6 +33,8 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
       - key: LANGGRAPH_DEPLOYMENT_URL
         fromService:
           name: shadify-agent
