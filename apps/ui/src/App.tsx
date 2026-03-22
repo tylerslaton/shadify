@@ -36,7 +36,7 @@ function useHashRoute() {
 export function App() {
   return (
     <CopilotKit
-      runtimeUrl={import.meta.env.VITE_RUNTIME_HOST ? `https://${import.meta.env.VITE_RUNTIME_HOST}/api/copilotkit` : "/api/copilotkit"}
+      runtimeUrl={import.meta.env.VITE_RUNTIME_HOST ? `https://${import.meta.env.VITE_RUNTIME_HOST}.onrender.com/api/copilotkit` : "/api/copilotkit"}
       agent="sample_agent"
       showDevConsole={false}
     >
