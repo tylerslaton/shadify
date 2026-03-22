@@ -30,7 +30,7 @@
   --olive-green-light: rgba(160, 169, 133, 1);
 
   /* Neutrals */
-  --vanilla-ivory: rgba(250, 249, 240, 1);
+  --vanilla-ivory: rgba(248, 246, 253, 1);
   --chocolate-brown: rgba(119, 70, 37, 1);
   --chocolate-brown-light: rgba(173, 144, 124, 1);
   --gray-light: rgba(164, 163, 161, 1);
@@ -87,21 +87,21 @@ body {
 }
 
 body {
-  background-color: #faf9f2;
+  background-color: #f8f6fd;
   background-image:
     radial-gradient(
       ellipse 600px 400px at 8% 0%,
-      rgba(253, 228, 186, 0.35) 0%,
+      rgba(216, 208, 253, 0.25) 0%,
       transparent 70%
     ),
     radial-gradient(
       ellipse 500px 350px at 92% 5%,
-      rgba(216, 236, 239, 0.4) 0%,
+      rgba(224, 228, 252, 0.3) 0%,
       transparent 70%
     ),
     radial-gradient(
       ellipse 400px 400px at 50% 100%,
-      rgba(253, 228, 186, 0.2) 0%,
+      rgba(216, 208, 253, 0.15) 0%,
       transparent 70%
     );
   color: var(--foreground);
@@ -172,8 +172,8 @@ samp {
   z-index: 2;
   background: linear-gradient(
     to top,
-    rgba(250, 249, 240, 1) 0%,
-    rgba(250, 249, 240, 0) 100%
+    rgba(248, 246, 253, 1) 0%,
+    rgba(248, 246, 253, 0) 100%
   );
 }
 

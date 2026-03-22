@@ -14,8 +14,11 @@ services:
         value: "20"
       - key: SKIP_INSTALL_DEPS
         value: "true"
-      - key: VITE_RUNTIME_URL
-        value: "https://shadify-runtime.onrender.com/api/copilotkit"
+      - key: VITE_RUNTIME_HOST
+        fromService:
+          name: shadify-runtime
+          type: web
+          property: host
     buildFilter:
       paths:
         - apps/ui/**
