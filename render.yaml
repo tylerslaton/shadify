@@ -36,7 +36,7 @@ services:
       targetMemoryPercent: 80
       targetCPUPercent: 70
     buildCommand: corepack enable && pnpm install --no-frozen-lockfile && npm install -g tsx
-    startCommand: tsx apps/runtime/server.ts
+    startCommand: node --max-old-space-size=256 --expose-gc --import tsx/esm apps/runtime/server.ts
     envVars:
       - key: NODE_VERSION
         value: "20"

@@ -14,8 +14,7 @@ from copilotkit import CopilotKitMiddleware, CopilotKitState, LangGraphAGUIAgent
 from ag_ui_langgraph import add_langgraph_fastapi_endpoint
 from src.middleware import apply_structured_output_schema, normalize_context
 from src.patches import apply as apply_patches
-from langgraph.checkpoint.memory import MemorySaver
-
+from src.bounded_memory_saver import BoundedMemorySaver
 from src.search import search_tools
 
 _ = load_dotenv()
@@ -34,7 +33,7 @@ agent = create_agent(
     context_schema=AgentContext,
     tools=[*search_tools],
     state_schema=AgentState,
-    checkpointer=MemorySaver(),
+    checkpointer=BoundedMemorySaver(max_threads=200),
     system_prompt=(
         "You are a helpful UI assistant. Build visual responses using the available components.\n"
         "Only wrap UI components into cards. For Markdown, don't wrap it in this. Use rows for "
