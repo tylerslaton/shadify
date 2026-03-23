@@ -16,69 +16,26 @@ function normalizeContent(content: unknown) {
   }
 }
 
-function toObject(value: unknown): Record<string, unknown> | null {
-  if (!value) return null;
-  if (typeof value === "object") return value as Record<string, unknown>;
-  if (typeof value !== "string") return null;
-  try {
-    const parsed = JSON.parse(value);
-    return typeof parsed === "object" && parsed
-      ? (parsed as Record<string, unknown>)
-      : null;
-  } catch {
-    return null;
-  }
-}
-
-function getLocation(value: unknown): string | null {
-  if (!value) return null;
-  if (typeof value === "string" && value.trim().length > 0) {
-    return value.split(",")[0]?.trim() ?? null;
-  }
-  if (typeof value !== "object") return null;
-  const input = value as Record<string, unknown>;
-  const direct =
-    getLocation(input.location) ??
-    getLocation(input.city) ??
-    getLocation(input.place) ??
-    getLocation(input.query);
-  if (direct) return direct;
-  return (
-    getLocation(input.args) ??
-    getLocation(input.input) ??
-    getLocation(input.props)
-  );
-}
-
-function humanizeToolName(name: string): string {
-  return name
-    .replace(/[_-]+/g, " ")
-    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-    .trim()
-    .toLowerCase();
-}
-
 const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
   message,
 }: {
   message: AssistantMessage;
 }) {
   const kit = useChatKit();
-  const { value, parserState } = useJsonParser(
-    message.content ?? "",
-    kit.schema,
-  );
+  const { value, parserState } = useJsonParser(message.content ?? "", kit.schema);
   const [exportOpen, setExportOpen] = useState(false);
 
   if (!value) return null;
 
   // Check if the tree contains non-markdown components
   const tree = (value as Record<string, unknown>).ui;
-  const hasComponents = Array.isArray(tree) && tree.some((node) => {
-    if (!node || typeof node !== "object") return false;
-    const keys = Object.keys(node as Record<string, unknown>);
-    return keys.length > 0 && keys[0] !== "markdown";
-  });
+  const hasComponents =
+    Array.isArray(tree) &&
+    tree.some((node) => {
+      if (!node || typeof node !== "object") return false;
+      const keys = Object.keys(node as Record<string, unknown>);
+      return keys.length > 0 && keys[0] !== "markdown";
+    });
 
   return (
     <div className="group/msg mt-2 flex w-full justify-start">
@@ -93,11 +50,7 @@ const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
               <CodeIcon className="size-3.5" />
               Export Code
             </button>
-            <ExportPanel
-              open={exportOpen}
-              onOpenChange={setExportOpen}
-              tree={tree as unknown[]}
-            />
+            <ExportPanel open={exportOpen} onOpenChange={setExportOpen} tree={tree as unknown[]} />
           </>
         )}
       </div>

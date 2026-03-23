@@ -25,11 +25,7 @@ export type SquircleProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 function parseCornerRadius(input: string): CornerRadius {
-  const parts = input
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map(Number);
+  const parts = input.trim().split(/\s+/).filter(Boolean).map(Number);
 
   if (parts.length === 1) {
     return {
@@ -75,9 +71,7 @@ export function Squircle({
 }: SquircleProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ width: 0, height: 0 });
-  const [resolvedBorderColor, setResolvedBorderColor] = useState(
-    borderColor ?? "transparent",
-  );
+  const [resolvedBorderColor, setResolvedBorderColor] = useState(borderColor ?? "transparent");
 
   useEffect(() => {
     const host = hostRef.current;

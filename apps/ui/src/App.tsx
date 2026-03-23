@@ -1,6 +1,5 @@
 import { CopilotKit } from "@copilotkit/react-core";
 import { useAgentContext, CopilotChat } from "@copilotkit/react-core/v2";
-import { CustomMessageRenderer } from "@/components/custom-message-renderer";
 import { AppHeader } from "@/components/app-header";
 import { useChatKit } from "@/components/chat/chat-kit";
 import { s } from "@hashbrownai/core";
@@ -9,7 +8,11 @@ import { chatTheme } from "@/lib/chat-theme";
 export function App() {
   return (
     <CopilotKit
-      runtimeUrl={import.meta.env.VITE_RUNTIME_HOST ? `https://${import.meta.env.VITE_RUNTIME_HOST}.onrender.com/api/copilotkit` : "/api/copilotkit"}
+      runtimeUrl={
+        import.meta.env.VITE_RUNTIME_HOST
+          ? `https://${import.meta.env.VITE_RUNTIME_HOST}.onrender.com/api/copilotkit`
+          : "/api/copilotkit"
+      }
       showDevConsole={false}
     >
       <Page />

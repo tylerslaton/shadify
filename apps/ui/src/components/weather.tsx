@@ -45,18 +45,14 @@ export const WeatherCard = memo(function WeatherCard({
       <div className="w-full bg-white/72 p-5 text-[var(--gray-dark)] backdrop-blur-md">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold capitalize text-[var(--gray-dark)]">
-              {location}
-            </h3>
+            <h3 className="text-xl font-bold capitalize text-[var(--gray-dark)]">{location}</h3>
             <p className="text-[var(--gray-dark)]/75">Current Weather</p>
           </div>
           <SunIcon />
         </div>
 
         <div className="mt-4 flex items-end justify-between">
-          <div className="text-3xl font-bold text-[var(--gray-dark)]">
-            {temperature}°
-          </div>
+          <div className="text-3xl font-bold text-[var(--gray-dark)]">{temperature}°</div>
           <div className="text-sm text-[var(--gray-dark)]/80">Clear skies</div>
         </div>
 

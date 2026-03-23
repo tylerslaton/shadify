@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   Bar,
   BarChart,
@@ -9,15 +9,15 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-} from "recharts"
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 
-type ChartType = "bar" | "line" | "area"
+type ChartType = "bar" | "line" | "area";
 
 function SimpleChart({
   type = "bar",
@@ -26,31 +26,31 @@ function SimpleChart({
   label,
   color,
 }: {
-  type?: ChartType
-  labels: string[]
-  values: number[]
-  label?: string
-  color?: string
+  type?: ChartType;
+  labels: string[];
+  values: number[];
+  label?: string;
+  color?: string;
 }) {
-  const displayLabel = label || "value"
-  const chartColor = color || "var(--sunshine-yellow)"
+  const displayLabel = label || "value";
+  const chartColor = color || "var(--sunshine-yellow)";
 
   const data = labels.map((l, i) => ({
     category: l,
     series: values[i] ?? 0,
-  }))
+  }));
 
   const config: ChartConfig = {
     series: {
       label: displayLabel,
       color: chartColor,
     },
-  }
+  };
 
   const sharedProps = {
     data,
     margin: { top: 8, right: 8, bottom: 0, left: -16 },
-  }
+  };
 
   return (
     <ChartContainer config={config} className="min-h-[200px] w-full">
@@ -68,7 +68,13 @@ function SimpleChart({
           <XAxis dataKey="category" tickLine={false} axisLine={false} tickMargin={8} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Line type="monotone" dataKey="series" stroke="var(--color-series)" strokeWidth={2} dot={false} />
+          <Line
+            type="monotone"
+            dataKey="series"
+            stroke="var(--color-series)"
+            strokeWidth={2}
+            dot={false}
+          />
         </LineChart>
       ) : (
         <AreaChart {...sharedProps}>
@@ -76,12 +82,19 @@ function SimpleChart({
           <XAxis dataKey="category" tickLine={false} axisLine={false} tickMargin={8} />
           <YAxis tickLine={false} axisLine={false} tickMargin={8} />
           <ChartTooltip content={<ChartTooltipContent />} />
-          <Area type="monotone" dataKey="series" fill="var(--color-series)" fillOpacity={0.3} stroke="var(--color-series)" strokeWidth={2} />
+          <Area
+            type="monotone"
+            dataKey="series"
+            fill="var(--color-series)"
+            fillOpacity={0.3}
+            stroke="var(--color-series)"
+            strokeWidth={2}
+          />
         </AreaChart>
       )}
     </ChartContainer>
-  )
+  );
 }
 
-export { SimpleChart }
-export type { ChartType }
+export { SimpleChart };
+export type { ChartType };

@@ -1,10 +1,7 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { cors } from "hono/cors";
-import {
-  CopilotRuntime,
-  createCopilotEndpointSingleRoute,
-} from "@copilotkit/runtime/v2";
+import { CopilotRuntime, createCopilotEndpointSingleRoute } from "@copilotkit/runtime/v2";
 import { LangGraphHttpAgent } from "@copilotkit/runtime/langgraph";
 import { registerRealtimeSessionRoute } from "@frenchfryai/runtime";
 
@@ -38,9 +35,5 @@ registerRealtimeSessionRoute(app, {
 
 const port = Number(process.env.PORT || 4000);
 serve({ fetch: app.fetch, port });
-console.log(
-  `Runtime server listening at http://localhost:${port}/api/copilotkit`,
-);
-console.log(
-  `Realtime session endpoint at http://localhost:${port}/realtime/session`,
-);
+console.log(`Runtime server listening at http://localhost:${port}/api/copilotkit`);
+console.log(`Realtime session endpoint at http://localhost:${port}/realtime/session`);

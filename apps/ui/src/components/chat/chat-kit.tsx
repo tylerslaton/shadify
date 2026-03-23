@@ -4,13 +4,7 @@ import { Card } from "../ui/card";
 import { Calendar } from "../ui/calendar";
 import { Row, Column } from "../ui/layout";
 import { SimpleChart } from "../ui/simple-chart";
-import {
-  Menubar,
-  MenubarMenu,
-  MenubarTrigger,
-  MenubarContent,
-  MenubarItem,
-} from "../ui/menubar";
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from "../ui/menubar";
 import { CodeBlock } from "../ui/code-block";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -18,9 +12,7 @@ import { SimpleSelect } from "../ui/simple-select";
 import { Label } from "../ui/label";
 
 function FallBack() {
-  return (
-    <div>👨‍🍳 Cooking...</div>
-  );
+  return <div>👨‍🍳 Cooking...</div>;
 }
 
 // --- Layout ---
@@ -32,7 +24,9 @@ const row = exposeComponent(Row, {
   props: {
     gap: s.string("Tailwind gap size, e.g. '2', '4', '6'") as any,
     align: s.string("Tailwind items-* alignment: 'start', 'center', 'end', 'stretch'") as any,
-    justify: s.string("Tailwind justify-* alignment: 'start', 'center', 'end', 'between', 'around'") as any,
+    justify: s.string(
+      "Tailwind justify-* alignment: 'start', 'center', 'end', 'between', 'around'",
+    ) as any,
   },
   children: "any",
 });
@@ -44,7 +38,9 @@ const column = exposeComponent(Column, {
   props: {
     gap: s.string("Tailwind gap size, e.g. '2', '4', '6'") as any,
     align: s.string("Tailwind items-* alignment: 'start', 'center', 'end', 'stretch'") as any,
-    justify: s.string("Tailwind justify-* alignment: 'start', 'center', 'end', 'between', 'around'") as any,
+    justify: s.string(
+      "Tailwind justify-* alignment: 'start', 'center', 'end', 'between', 'around'",
+    ) as any,
   },
   children: "any",
 });
@@ -53,7 +49,8 @@ const column = exposeComponent(Column, {
 
 const simpleChart = exposeComponent(SimpleChart, {
   name: "chart",
-  description: "A chart that visualizes data. Supports bar, line, and area chart types. Provide parallel arrays of labels (x-axis) and values (y-axis).",
+  description:
+    "A chart that visualizes data. Supports bar, line, and area chart types. Provide parallel arrays of labels (x-axis) and values (y-axis).",
   fallback: () => <FallBack />,
   props: {
     type: s.enumeration("Chart type", ["bar", "line", "area"] as const) as any,
@@ -110,7 +107,8 @@ export function useChatKit() {
       exposeMarkdown(),
       exposeComponent(Card, {
         name: "card",
-        description: "Card to wrap generative UI content. For only Markdown, don't wrap it in this.",
+        description:
+          "Card to wrap generative UI content. For only Markdown, don't wrap it in this.",
         fallback: () => <FallBack />,
         children: "any",
       }),
@@ -133,7 +131,9 @@ export function useChatKit() {
         fallback: () => <FallBack />,
         props: {
           code: s.streaming.string("The code to display"),
-          language: s.string("Programming language for syntax highlighting, e.g. 'tsx', 'python', 'json'") as any,
+          language: s.string(
+            "Programming language for syntax highlighting, e.g. 'tsx', 'python', 'json'",
+          ) as any,
         },
         children: false,
       }),
@@ -152,7 +152,14 @@ export function useChatKit() {
         description: "A clickable button. Use variant to control style.",
         fallback: () => <FallBack />,
         props: {
-          variant: s.enumeration("Button style", ["default", "destructive", "outline", "secondary", "ghost", "link"] as const) as any,
+          variant: s.enumeration("Button style", [
+            "default",
+            "destructive",
+            "outline",
+            "secondary",
+            "ghost",
+            "link",
+          ] as const) as any,
           size: s.enumeration("Button size", ["default", "sm", "lg", "icon"] as const) as any,
         },
         children: "text",

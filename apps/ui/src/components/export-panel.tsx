@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { CodeBlock } from "./ui/code-block";
 import { treeToJsx } from "@/lib/tree-to-jsx";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { CheckIcon, CopyIcon } from "lucide-react";
 
@@ -38,12 +32,7 @@ export function ExportPanel({
               <SheetTitle>Export Component</SheetTitle>
               <SheetDescription>Copy-paste ready React code</SheetDescription>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCopy}
-              className="gap-1.5"
-            >
+            <Button variant="outline" size="sm" onClick={handleCopy} className="gap-1.5">
               {copied ? (
                 <>
                   <CheckIcon className="size-3.5" />

@@ -7,8 +7,8 @@
 :root {
   --font-body: "Fredoka", "DM Sans", "Segoe UI", sans-serif;
   --font-code:
-    "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+    "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
   --font-display: "KefirVariable", "Fraunces", "Times New Roman", serif;
 
   /* Yellows */
@@ -89,21 +89,9 @@ body {
 body {
   background-color: #f8f6fd;
   background-image:
-    radial-gradient(
-      ellipse 600px 400px at 8% 0%,
-      rgba(216, 208, 253, 0.25) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 500px 350px at 92% 5%,
-      rgba(224, 228, 252, 0.3) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 400px 400px at 50% 100%,
-      rgba(216, 208, 253, 0.15) 0%,
-      transparent 70%
-    );
+    radial-gradient(ellipse 600px 400px at 8% 0%, rgba(216, 208, 253, 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 350px at 92% 5%, rgba(224, 228, 252, 0.3) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at 50% 100%, rgba(216, 208, 253, 0.15) 0%, transparent 70%);
   color: var(--foreground);
   font-family: var(--font-body);
 }
@@ -168,9 +156,13 @@ samp {
 /* Restyle CopilotKit's scroll fade to match body background */
 .absolute.pointer-events-none.bg-gradient-to-t.from-white,
 [class*="cpk\:bg-gradient-to-t"][class*="cpk\:from-white"] {
-  background: linear-gradient(to top, var(--vanilla-ivory) 0%, var(--vanilla-ivory) 40%, transparent 100%) !important;
+  background: linear-gradient(
+    to top,
+    var(--vanilla-ivory) 0%,
+    var(--vanilla-ivory) 40%,
+    transparent 100%
+  ) !important;
 }
-
 
 .chat-page .copilotKitInputContainer::before {
   content: "";
@@ -181,11 +173,7 @@ samp {
   height: 30px;
   pointer-events: none;
   z-index: 2;
-  background: linear-gradient(
-    to top,
-    rgba(248, 246, 253, 1) 0%,
-    rgba(248, 246, 253, 0) 100%
-  );
+  background: linear-gradient(to top, rgba(248, 246, 253, 1) 0%, rgba(248, 246, 253, 0) 100%);
 }
 
 .weather-card-fallback {

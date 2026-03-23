@@ -1,12 +1,6 @@
 import { Highlight, themes } from "prism-react-renderer";
 
-function CodeBlock({
-  code,
-  language = "tsx",
-}: {
-  code: string;
-  language?: string;
-}) {
+function CodeBlock({ code, language = "tsx" }: { code: string; language?: string }) {
   return (
     <Highlight theme={themes.github} code={code.trim()} language={language}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (

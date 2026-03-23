@@ -6,13 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-function SimpleSelect({
-  placeholder,
-  options,
-}: {
-  placeholder?: string;
-  options: string[];
-}) {
+function SimpleSelect({ placeholder, options }: { placeholder?: string; options: string[] }) {
   return (
     <Select>
       <SelectTrigger>

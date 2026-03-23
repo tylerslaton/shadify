@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { CopilotChatInputProps, useAgent, useCopilotKit } from "@copilotkit/react-core/v2";
 
-export function ChatInput(props: CopilotChatInputProps) {
+export function ChatInput(_props: CopilotChatInputProps) {
   const { agent } = useAgent();
   const { copilotkit } = useCopilotKit();
   const [input, setInput] = useState("");
@@ -14,8 +14,10 @@ export function ChatInput(props: CopilotChatInputProps) {
     setInput("");
   };
 
-  return <div>
-    <Textarea onChange={(e) => setInput(e.target.value)} value={input}/>
-    <Button onClick={handleSend}>Send</Button>
-  </div>
+  return (
+    <div>
+      <Textarea onChange={(e) => setInput(e.target.value)} value={input} />
+      <Button onClick={handleSend}>Send</Button>
+    </div>
+  );
 }
