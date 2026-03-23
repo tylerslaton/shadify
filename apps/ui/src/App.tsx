@@ -1,9 +1,11 @@
 import { CopilotKit } from "@copilotkit/react-core";
 import { useAgentContext, CopilotChat } from "@copilotkit/react-core/v2";
+
 import { AppHeader } from "@/components/app-header";
 import { useChatKit } from "@/components/chat/chat-kit";
 import { s } from "@hashbrownai/core";
 import { chatTheme } from "@/lib/chat-theme";
+import { useInitialSuggestions } from "./lib/suggestions";
 
 export function App() {
   return (
@@ -22,11 +24,8 @@ export function App() {
 
 export function Page() {
   const chatKit = useChatKit();
-
-  useAgentContext({
-    description: "output_schema",
-    value: s.toJsonSchema(chatKit.schema),
-  });
+  useAgentContext({ description: "output_schema", value: s.toJsonSchema(chatKit.schema) });
+  useInitialSuggestions();
 
   return <Chat />;
 }

@@ -15,4 +15,5 @@ export const chatTheme: CopilotChatProps = {
   input: {
     className: "bg-transparent",
   },
+  suggestionView: "bg-transparent",
 };
