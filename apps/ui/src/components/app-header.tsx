@@ -21,7 +21,7 @@ export function AppHeader({ title }: { title: string }) {
         />
         <span
           aria-hidden="true"
-          className="mx-0.5 inline-block h-5 w-px bg-[rgba(119,70,37,0.15)]"
+          className="mx-0.5 inline-block h-5 w-px bg-[var(--input)]"
         />
         {title}
       </h1>

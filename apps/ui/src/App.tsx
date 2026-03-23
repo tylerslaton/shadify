@@ -1,43 +1,15 @@
-import { useState, useEffect } from "react";
 import { CopilotKit } from "@copilotkit/react-core";
 import { useAgentContext, CopilotChat } from "@copilotkit/react-core/v2";
 import { CustomMessageRenderer } from "@/components/custom-message-renderer";
 import { AppHeader } from "@/components/app-header";
 import { useChatKit } from "@/components/chat/chat-kit";
 import { s } from "@hashbrownai/core";
-
-function Chat() {
-  return (
-    <main className="relative z-10 flex h-dvh w-full flex-col overflow-hidden text-[--foreground]">
-      <AppHeader title="Shadify" />
-      <div className="mx-auto flex min-h-0 h-full w-full max-w-3xl flex-col px-4">
-        <CopilotChat
-          messageView={{
-            assistantMessage: CustomMessageRenderer as any,
-          }}
-        />
-      </div>
-    </main>
-  );
-}
-
-function useHashRoute() {
-  const [hash, setHash] = useState(() => window.location.hash);
-
-  useEffect(() => {
-    const onHashChange = () => setHash(window.location.hash);
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
-
-  return hash;
-}
+import { chatTheme } from "@/lib/chat-theme";
 
 export function App() {
   return (
     <CopilotKit
       runtimeUrl={import.meta.env.VITE_RUNTIME_HOST ? `https://${import.meta.env.VITE_RUNTIME_HOST}.onrender.com/api/copilotkit` : "/api/copilotkit"}
-      agent="sample_agent"
       showDevConsole={false}
     >
       <Page />
@@ -46,7 +18,6 @@ export function App() {
 }
 
 export function Page() {
-  const hash = useHashRoute();
   const chatKit = useChatKit();
 
   useAgentContext({
@@ -54,5 +25,16 @@ export function Page() {
     value: s.toJsonSchema(chatKit.schema),
   });
 
-   return <Chat />
+  return <Chat />;
+}
+
+function Chat() {
+  return (
+    <main className="relative z-10 flex h-dvh w-full flex-col overflow-hidden text-[--foreground]">
+      <AppHeader title="Shadify" />
+      <div className="w-full h-[calc(100vh-60px)]">
+        <CopilotChat {...chatTheme} />
+      </div>
+    </main>
+  );
 }

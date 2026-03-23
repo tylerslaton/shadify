@@ -1,4 +1,4 @@
-import { useEffect, memo } from "react";
+import { memo } from "react";
 import { Squircle } from "./squircle";
 
 function SunIcon() {
@@ -7,7 +7,7 @@ function SunIcon() {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      className="h-14 w-14 text-[var(--sunshine-yellow)]"
+      className="h-14 w-14 text-[--sunshine-yellow]"
     >
       <circle cx="12" cy="12" r="5" />
       <path
@@ -34,19 +34,12 @@ export const WeatherCard = memo(function WeatherCard({
   windSpeed: number;
   feelsLike: number;
 }) {
-  console.log("%cRendering the Weather Card", "color: #6699ea;");
-  useEffect(() => {
-    console.log("%cMounting the Weather Card", "color: #ea66c0;");
-    return () =>
-      console.log("%cUnmounting the Weather Card", "color: #d1ea66;");
-  }, []);
-
   return (
     <Squircle
       squircle="30"
       style={{ backgroundColor: themeColor, overflow: "hidden" }}
       borderWidth={2}
-      borderColor="rgba(255, 255, 255, 0.55)"
+      borderColor="var(--surface-elevated)"
       className="weather-card-enter mb-4 mt-6 w-full max-w-md shadow-[0_16px_35px_-20px_rgba(94,92,90,0.45)]"
     >
       <div className="w-full bg-white/72 p-5 text-[var(--gray-dark)] backdrop-blur-md">

@@ -12,7 +12,7 @@ function CodeBlock({
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
         <pre
           className={`${className} overflow-x-auto rounded-lg border border-[var(--border)] p-4 text-sm leading-relaxed`}
-          style={{ ...style, backgroundColor: "rgba(255,255,255,0.6)" }}
+          style={{ ...style, backgroundColor: "var(--surface)" }}
         >
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({ line })}>

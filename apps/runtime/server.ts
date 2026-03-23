@@ -13,7 +13,7 @@ const agentUrl = agentHost.startsWith("http") ? agentHost : `http://${agentHost}
 
 const runtime = new CopilotRuntime({
   agents: {
-    sample_agent: new LangGraphHttpAgent({
+    default: new LangGraphHttpAgent({
       url: agentUrl,
     }),
   },

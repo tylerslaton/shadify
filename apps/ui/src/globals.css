@@ -156,10 +156,21 @@ samp {
   position: relative;
 }
 
-/* Hide CopilotKit's built-in gradient overlay above the input */
-.absolute.pointer-events-none.bg-gradient-to-t.from-white {
-  display: none !important;
+/* Hide scrollbars in CopilotKit chat */
+[data-copilotkit] div {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+[data-copilotkit] div::-webkit-scrollbar {
+  display: none;
+}
+
+/* Restyle CopilotKit's scroll fade to match body background */
+.absolute.pointer-events-none.bg-gradient-to-t.from-white,
+[class*="cpk\:bg-gradient-to-t"][class*="cpk\:from-white"] {
+  background: linear-gradient(to top, var(--vanilla-ivory) 0%, var(--vanilla-ivory) 40%, transparent 100%) !important;
+}
+
 
 .chat-page .copilotKitInputContainer::before {
   content: "";

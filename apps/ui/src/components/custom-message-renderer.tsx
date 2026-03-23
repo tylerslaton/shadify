@@ -58,23 +58,6 @@ function humanizeToolName(name: string): string {
     .toLowerCase();
 }
 
-function getToolStatusText(message: RenderMessageProps["message"]): string {
-  const toolName = (message as { toolName?: string }).toolName;
-  const payload = toObject(message.content);
-  const location = getLocation(payload);
-
-  if (toolName?.toLowerCase().includes("weather")) {
-    return location ? `Checking weather for ${location}` : "Checking weather";
-  }
-  if (toolName) {
-    return `Running ${humanizeToolName(toolName)}`;
-  }
-  if (location) {
-    return `Checking weather for ${location}`;
-  }
-  return "Running tool";
-}
-
 const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
   message,
 }: {
@@ -86,8 +69,6 @@ const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
     kit.schema,
   );
   const [exportOpen, setExportOpen] = useState(false);
-
-  if (parserState.isComplete) console.log(message.content);
 
   if (!value) return null;
 
@@ -127,20 +108,6 @@ const AssistantMessageRenderer = memo(function AssistantMessageRenderer({
 export function CustomMessageRenderer({ message }: RenderMessageProps) {
   if (message.role === "assistant") {
     return <AssistantMessageRenderer message={message} />;
-  }
-  if (message.role === "tool") {
-    return (
-      <div className="mb-2 flex w-full justify-start">
-        <div className="tool-call-enter max-w-[72ch] text-[13px] leading-5 text-[var(--gray)]">
-          {getToolStatusText(message)}
-          {message.error ? (
-            <span className="ml-2 text-[var(--indian-red-dark)]">
-              ({message.error})
-            </span>
-          ) : null}
-        </div>
-      </div>
-    );
   }
   return (
     <div className="flex w-full justify-end">
