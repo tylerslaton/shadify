@@ -33,6 +33,16 @@ registerRealtimeSessionRoute(app, {
   },
 });
 
+// Prevent crash when agent closes the socket mid-stream
+process.on("unhandledRejection", (err: unknown) => {
+  const msg = err instanceof Error ? err.message : String(err);
+  if (msg === "terminated" || msg.includes("other side closed")) {
+    console.warn("Agent connection closed mid-stream, ignoring:", msg);
+    return;
+  }
+  console.error("Unhandled rejection:", err);
+});
+
 const port = Number(process.env.PORT || 4000);
 serve({ fetch: app.fetch, port });
 console.log(`Runtime server listening at http://localhost:${port}/api/copilotkit`);
