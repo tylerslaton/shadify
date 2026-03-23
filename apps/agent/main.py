@@ -22,6 +22,24 @@ _ = load_dotenv()
 apply_patches()
 
 
+class BoundedMemorySaver(MemorySaver):
+    """MemorySaver that evicts oldest threads when exceeding max_threads."""
+
+    def __init__(self, max_threads: int = 200):
+        super().__init__()
+        self.max_threads = max_threads
+
+    def put(self, config, checkpoint, metadata, new_versions):
+        result = super().put(config, checkpoint, metadata, new_versions)
+        if len(self.storage) > self.max_threads:
+            oldest_keys = sorted(self.storage.keys())[
+                : len(self.storage) - self.max_threads
+            ]
+            for key in oldest_keys:
+                del self.storage[key]
+        return result
+
+
 class AgentState(CopilotKitState):
     proverbs: List[str]
 
@@ -34,7 +52,7 @@ agent = create_agent(
     context_schema=AgentContext,
     tools=[*search_tools],
     state_schema=AgentState,
-    checkpointer=MemorySaver(),
+    checkpointer=BoundedMemorySaver(max_threads=200),
     system_prompt=(
         "You are a helpful UI assistant. Build visual responses using the available components.\n"
         "Only wrap UI components into cards. For Markdown, don't wrap it in this. Use rows for "
