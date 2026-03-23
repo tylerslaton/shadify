@@ -41,7 +41,6 @@ const IGNORABLE_ERRORS = [
   "ECONNRESET",
   "ECONNREFUSED",
   "EPIPE",
-  "fetch failed",
   "network error",
   "aborted",
   "AbortError",
@@ -52,7 +51,12 @@ const IGNORABLE_ERRORS = [
 function isIgnorable(err: unknown): boolean {
   const msg =
     err instanceof Error ? `${err.name}: ${err.message}` : String(err);
-  return IGNORABLE_ERRORS.some((token) => msg.includes(token));
+  if (IGNORABLE_ERRORS.some((token) => msg.includes(token))) return true;
+  // Check cause chain (Node.js fetch wraps network errors)
+  if (err instanceof Error && err.cause) {
+    return isIgnorable(err.cause);
+  }
+  return false;
 }
 
 process.on("unhandledRejection", (err: unknown) => {
@@ -68,17 +72,17 @@ process.on("unhandledRejection", (err: unknown) => {
 
 process.on("uncaughtException", (err: Error) => {
   if (isIgnorable(err)) {
-    console.warn("[uncaughtException] Suppressed:", err.message);
-    return;
+    console.error("[uncaughtException] Ignorable but fatal (unsafe to continue):", err.message);
+  } else {
+    console.error("[uncaughtException] Fatal:", err);
   }
-  console.error("[uncaughtException] Fatal:", err);
   process.exit(1);
 });
 
 // --- Memory monitoring ---
 
 const MEMORY_LOG_INTERVAL_MS = 60_000;
-const MEMORY_WARN_THRESHOLD_MB = 300;
+const MEMORY_WARN_THRESHOLD_MB = 200;
 
 setInterval(() => {
   const mem = process.memoryUsage();

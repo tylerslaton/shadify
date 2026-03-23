@@ -2,8 +2,10 @@
 Main entry point for the Shadify agent.
 """
 
+import logging
 import os
 import warnings
+from collections import OrderedDict
 from typing import Any, List, TypedDict
 
 from dotenv import load_dotenv
@@ -18,25 +20,40 @@ from langgraph.checkpoint.memory import MemorySaver
 
 from src.search import search_tools
 
+logger = logging.getLogger(__name__)
+
 _ = load_dotenv()
 apply_patches()
 
 
+# NOTE: This class is not thread-safe. It is designed for single-process
+# async usage (uvicorn). If deploying with multiple worker threads,
+# wrap put() with a threading.Lock.
 class BoundedMemorySaver(MemorySaver):
     """MemorySaver that evicts oldest threads when exceeding max_threads."""
 
     def __init__(self, max_threads: int = 200):
         super().__init__()
         self.max_threads = max_threads
+        self._insertion_order: OrderedDict[str, None] = OrderedDict()
 
     def put(self, config, checkpoint, metadata, new_versions):
+        thread_id = config["configurable"]["thread_id"]
+        # Move to end if already tracked, otherwise insert
+        self._insertion_order[thread_id] = None
+        self._insertion_order.move_to_end(thread_id)
+
         result = super().put(config, checkpoint, metadata, new_versions)
-        if len(self.storage) > self.max_threads:
-            oldest_keys = sorted(self.storage.keys())[
-                : len(self.storage) - self.max_threads
-            ]
-            for key in oldest_keys:
-                del self.storage[key]
+
+        while len(self.storage) > self.max_threads:
+            oldest_thread, _ = self._insertion_order.popitem(last=False)
+            if oldest_thread in self.storage:
+                logger.info(
+                    "BoundedMemorySaver: evicting thread %s (%d threads stored)",
+                    oldest_thread,
+                    len(self.storage),
+                )
+                del self.storage[oldest_thread]
         return result
 
 
