@@ -8,10 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ag-ui/core": "^0.0.45",
+    "@ag-ui/core": "^0.0.47",
     "@base-ui/react": "^1.2.0",
-    "@copilotkit/react-core": "1.51.4",
-    "@copilotkit/react-ui": "1.51.4",
+    "@copilotkit/react-core": "1.54.0",
+    "@copilotkit/react-ui": "1.54.0",
     "@frenchfryai/core": "0.1.1",
     "@frenchfryai/react": "0.1.1",
     "@frenchfryai/runtime": "0.1.1",
