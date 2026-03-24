@@ -36,9 +36,6 @@ app.use("/*", async (c, next) => {
 
 app.route("/", copilotApp as any);
 
-// Error resilience and memory monitoring — see resilience.ts for details
-import "./resilience.js";
-
 const port = Number(process.env.PORT || 4000);
 let server: ReturnType<typeof serve> | undefined;
 server = serve({ fetch: app.fetch, port });
