@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import { CopilotRuntime, createCopilotEndpointSingleRoute } from "@copilotkit/runtime/v2";
 import { LangGraphHttpAgent } from "@copilotkit/runtime/langgraph";
 import { registerRealtimeSessionRoute } from "@frenchfryai/runtime";
+import { isShuttingDown, onShutdown } from "./resilience.js";
 
 const agentHost = process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123";
 const agentUrl = agentHost.startsWith("http") ? agentHost : `http://${agentHost}`;
@@ -24,6 +25,16 @@ const copilotApp = createCopilotEndpointSingleRoute({
 const app = new Hono();
 app.use("/*", cors());
 
+// Reject new requests during graceful OOM shutdown so in-flight ones can drain
+app.use("/*", async (c, next) => {
+  if (isShuttingDown()) {
+    c.header("Connection", "close");
+    c.header("Retry-After", "5");
+    return c.text("Service restarting", 503);
+  }
+  return next();
+});
+
 app.route("/", copilotApp as any);
 
 registerRealtimeSessionRoute(app, {
@@ -33,10 +44,9 @@ registerRealtimeSessionRoute(app, {
   },
 });
 
-// Error resilience and memory monitoring — see resilience.ts for details
-import "./resilience.js";
-
 const port = Number(process.env.PORT || 4000);
-serve({ fetch: app.fetch, port });
+let server: ReturnType<typeof serve> | undefined;
+server = serve({ fetch: app.fetch, port });
+onShutdown(() => server?.close());
 console.log(`Runtime server listening at http://localhost:${port}/api/copilotkit`);
 console.log(`Realtime session endpoint at http://localhost:${port}/realtime/session`);
