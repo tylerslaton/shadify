@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "@copilotkit/runtime": "1.54.0",
-    "@frenchfryai/runtime": "^0.1.1",
     "@hono/node-server": "^1.13.6",
     "hono": "^4.11.4"
   },
