@@ -3,7 +3,6 @@ import { serve } from "@hono/node-server";
 import { cors } from "hono/cors";
 import { CopilotRuntime, createCopilotEndpointSingleRoute } from "@copilotkit/runtime/v2";
 import { LangGraphHttpAgent } from "@copilotkit/runtime/langgraph";
-import { registerRealtimeSessionRoute } from "@frenchfryai/runtime";
 import { isShuttingDown, onShutdown } from "./resilience.js";
 
 const agentHost = process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123";
@@ -37,16 +36,8 @@ app.use("/*", async (c, next) => {
 
 app.route("/", copilotApp as any);
 
-registerRealtimeSessionRoute(app, {
-  path: "/realtime/session",
-  openai: {
-    apiKey: process.env.OPENAI_API_KEY ?? "",
-  },
-});
-
 const port = Number(process.env.PORT || 4000);
 let server: ReturnType<typeof serve> | undefined;
 server = serve({ fetch: app.fetch, port });
 onShutdown(() => server?.close());
 console.log(`Runtime server listening at http://localhost:${port}/api/copilotkit`);
-console.log(`Realtime session endpoint at http://localhost:${port}/realtime/session`);
