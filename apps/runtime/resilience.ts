@@ -92,7 +92,9 @@ export function onShutdown(cb: () => void): void {
 function gracefulShutdown() {
   if (shuttingDown) return;
   shuttingDown = true;
-  for (const cb of shutdownCallbacks) cb();
+  for (const cb of shutdownCallbacks) {
+    try { cb(); } catch (e) { console.error("[shutdown] callback error", e); }
+  }
 
   const mem = process.memoryUsage();
   const heapMb = Math.round(mem.heapUsed / 1024 / 1024);
@@ -108,7 +110,7 @@ function gracefulShutdown() {
   setTimeout(() => {
     console.warn("[memory] Drain period complete — exiting (code 0)");
     process.exit(0);
-  }, GRACEFUL_DRAIN_MS).unref();
+  }, GRACEFUL_DRAIN_MS);
 }
 
 setInterval(() => {

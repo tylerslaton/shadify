@@ -29,6 +29,7 @@ app.use("/*", cors());
 app.use("/*", async (c, next) => {
   if (isShuttingDown()) {
     c.header("Connection", "close");
+    c.header("Retry-After", "5");
     return c.text("Service restarting", 503);
   }
   return next();
@@ -44,7 +45,8 @@ registerRealtimeSessionRoute(app, {
 });
 
 const port = Number(process.env.PORT || 4000);
-const server = serve({ fetch: app.fetch, port });
-onShutdown(() => server.close());
+let server: ReturnType<typeof serve> | undefined;
+server = serve({ fetch: app.fetch, port });
+onShutdown(() => server?.close());
 console.log(`Runtime server listening at http://localhost:${port}/api/copilotkit`);
 console.log(`Realtime session endpoint at http://localhost:${port}/realtime/session`);
