@@ -72,6 +72,7 @@ const GRACEFUL_SHUTDOWN_HEAP_MB = 235;
 const GRACEFUL_DRAIN_MS = 5_000;
 
 let shuttingDown = false;
+const shutdownCallbacks: Array<() => void> = [];
 
 /**
  * Exported so server.ts can read it in middleware to reject new requests
@@ -81,9 +82,17 @@ export function isShuttingDown(): boolean {
   return shuttingDown;
 }
 
+/**
+ * Register a callback to run when graceful shutdown begins (e.g. server.close()).
+ */
+export function onShutdown(cb: () => void): void {
+  shutdownCallbacks.push(cb);
+}
+
 function gracefulShutdown() {
   if (shuttingDown) return;
   shuttingDown = true;
+  for (const cb of shutdownCallbacks) cb();
 
   const mem = process.memoryUsage();
   const heapMb = Math.round(mem.heapUsed / 1024 / 1024);

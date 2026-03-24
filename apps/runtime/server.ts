@@ -4,7 +4,7 @@ import { cors } from "hono/cors";
 import { CopilotRuntime, createCopilotEndpointSingleRoute } from "@copilotkit/runtime/v2";
 import { LangGraphHttpAgent } from "@copilotkit/runtime/langgraph";
 import { registerRealtimeSessionRoute } from "@frenchfryai/runtime";
-import { isShuttingDown } from "./resilience.js";
+import { isShuttingDown, onShutdown } from "./resilience.js";
 
 const agentHost = process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123";
 const agentUrl = agentHost.startsWith("http") ? agentHost : `http://${agentHost}`;
@@ -44,6 +44,7 @@ registerRealtimeSessionRoute(app, {
 });
 
 const port = Number(process.env.PORT || 4000);
-serve({ fetch: app.fetch, port });
+const server = serve({ fetch: app.fetch, port });
+onShutdown(() => server.close());
 console.log(`Runtime server listening at http://localhost:${port}/api/copilotkit`);
 console.log(`Realtime session endpoint at http://localhost:${port}/realtime/session`);
