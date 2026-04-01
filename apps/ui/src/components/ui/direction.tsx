@@ -1,20 +1,17 @@
-"use client";
+import { useStyle } from "@/lib/style-context";
+import {
+  DirectionProvider as DefaultDirectionProvider,
+  useDirection as defaultuseDirection,
+} from "../ui-default/direction";
+import { DirectionProvider as LumaDirectionProvider } from "../ui-luma/direction";
 
-import * as React from "react";
-import { Direction } from "radix-ui";
-
-function DirectionProvider({
-  dir,
-  direction,
-  children,
-}: React.ComponentProps<typeof Direction.DirectionProvider> & {
-  direction?: React.ComponentProps<typeof Direction.DirectionProvider>["dir"];
-}) {
-  return (
-    <Direction.DirectionProvider dir={direction ?? dir}>{children}</Direction.DirectionProvider>
+function DirectionProvider(props: React.ComponentProps<typeof DefaultDirectionProvider>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaDirectionProvider {...props} />
+  ) : (
+    <DefaultDirectionProvider {...props} />
   );
 }
 
-const useDirection = Direction.useDirection;
-
-export { DirectionProvider, useDirection };
+export { DirectionProvider, defaultuseDirection as useDirection };

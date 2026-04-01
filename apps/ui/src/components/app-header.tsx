@@ -1,4 +1,8 @@
+import { useStyle } from "@/lib/style-context";
+
 export function AppHeader({ title }: { title: string }) {
+  const { style, setStyle } = useStyle();
+
   return (
     <header className="relative flex items-center justify-between px-6 py-4">
       <h1
@@ -16,6 +20,19 @@ export function AppHeader({ title }: { title: string }) {
         <span aria-hidden="true" className="mx-0.5 inline-block h-5 w-px bg-[var(--input)]" />
         {title}
       </h1>
+      <button
+        type="button"
+        onClick={() => setStyle(style === "default" ? "luma" : "default")}
+        className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--muted)]"
+      >
+        <span
+          className="inline-block size-2 rounded-full"
+          style={{
+            backgroundColor: style === "luma" ? "var(--sunshine-yellow)" : "var(--sky-blue)",
+          }}
+        />
+        {style === "luma" ? "Luma" : "Default"}
+      </button>
       <div
         className="absolute bottom-0 left-6 right-6 h-px"
         style={{

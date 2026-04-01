@@ -1,92 +1,63 @@
-"use client";
+import { useStyle } from "@/lib/style-context";
+import {
+  Table as DefaultTable,
+  TableHeader as DefaultTableHeader,
+  TableBody as DefaultTableBody,
+  TableFooter as DefaultTableFooter,
+  TableHead as DefaultTableHead,
+  TableRow as DefaultTableRow,
+  TableCell as DefaultTableCell,
+  TableCaption as DefaultTableCaption,
+} from "../ui-default/table";
+import {
+  Table as LumaTable,
+  TableHeader as LumaTableHeader,
+  TableBody as LumaTableBody,
+  TableFooter as LumaTableFooter,
+  TableHead as LumaTableHead,
+  TableRow as LumaTableRow,
+  TableCell as LumaTableCell,
+  TableCaption as LumaTableCaption,
+} from "../ui-luma/table";
 
-import * as React from "react";
-
-import { cn } from "@/lib/utils";
-
-function Table({ className, ...props }: React.ComponentProps<"table">) {
-  return (
-    <div data-slot="table-container" className="relative w-full overflow-x-auto">
-      <table
-        data-slot="table"
-        className={cn("w-full caption-bottom text-sm", className)}
-        {...props}
-      />
-    </div>
-  );
+function Table(props: React.ComponentProps<typeof DefaultTable>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTable {...props} /> : <DefaultTable {...props} />;
 }
 
-function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
-  return <thead data-slot="table-header" className={cn("[&_tr]:border-b", className)} {...props} />;
+function TableHeader(props: React.ComponentProps<typeof DefaultTableHeader>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTableHeader {...props} /> : <DefaultTableHeader {...props} />;
 }
 
-function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
-  return (
-    <tbody
-      data-slot="table-body"
-      className={cn("[&_tr:last-child]:border-0", className)}
-      {...props}
-    />
-  );
+function TableBody(props: React.ComponentProps<typeof DefaultTableBody>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTableBody {...props} /> : <DefaultTableBody {...props} />;
 }
 
-function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
-  return (
-    <tfoot
-      data-slot="table-footer"
-      className={cn("bg-muted/50 border-t font-medium [&>tr]:last:border-b-0", className)}
-      {...props}
-    />
-  );
+function TableFooter(props: React.ComponentProps<typeof DefaultTableFooter>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTableFooter {...props} /> : <DefaultTableFooter {...props} />;
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
-  return (
-    <tr
-      data-slot="table-row"
-      className={cn(
-        "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
-        className,
-      )}
-      {...props}
-    />
-  );
+function TableHead(props: React.ComponentProps<typeof DefaultTableHead>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTableHead {...props} /> : <DefaultTableHead {...props} />;
 }
 
-function TableHead({ className, ...props }: React.ComponentProps<"th">) {
-  return (
-    <th
-      data-slot="table-head"
-      className={cn(
-        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className,
-      )}
-      {...props}
-    />
-  );
+function TableRow(props: React.ComponentProps<typeof DefaultTableRow>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTableRow {...props} /> : <DefaultTableRow {...props} />;
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<"td">) {
-  return (
-    <td
-      data-slot="table-cell"
-      className={cn(
-        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
-        className,
-      )}
-      {...props}
-    />
-  );
+function TableCell(props: React.ComponentProps<typeof DefaultTableCell>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTableCell {...props} /> : <DefaultTableCell {...props} />;
 }
 
-function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
-  return (
-    <caption
-      data-slot="table-caption"
-      className={cn("text-muted-foreground mt-4 text-sm", className)}
-      {...props}
-    />
-  );
+function TableCaption(props: React.ComponentProps<typeof DefaultTableCaption>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaTableCaption {...props} /> : <DefaultTableCaption {...props} />;
 }
 
 export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption };

@@ -1,69 +1,38 @@
-"use client";
+import { useStyle } from "@/lib/style-context";
+import {
+  InputOTP as DefaultInputOTP,
+  InputOTPGroup as DefaultInputOTPGroup,
+  InputOTPSlot as DefaultInputOTPSlot,
+  InputOTPSeparator as DefaultInputOTPSeparator,
+} from "../ui-default/input-otp";
+import {
+  InputOTP as LumaInputOTP,
+  InputOTPGroup as LumaInputOTPGroup,
+  InputOTPSlot as LumaInputOTPSlot,
+  InputOTPSeparator as LumaInputOTPSeparator,
+} from "../ui-luma/input-otp";
 
-import * as React from "react";
-import { OTPInput, OTPInputContext } from "input-otp";
-import { MinusIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
-
-function InputOTP({
-  className,
-  containerClassName,
-  ...props
-}: React.ComponentProps<typeof OTPInput> & {
-  containerClassName?: string;
-}) {
-  return (
-    <OTPInput
-      data-slot="input-otp"
-      containerClassName={cn("flex items-center gap-2 has-disabled:opacity-50", containerClassName)}
-      className={cn("disabled:cursor-not-allowed", className)}
-      {...props}
-    />
-  );
+function InputOTP(props: React.ComponentProps<typeof DefaultInputOTP>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaInputOTP {...props} /> : <DefaultInputOTP {...props} />;
 }
 
-function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div data-slot="input-otp-group" className={cn("flex items-center", className)} {...props} />
-  );
+function InputOTPGroup(props: React.ComponentProps<typeof DefaultInputOTPGroup>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaInputOTPGroup {...props} /> : <DefaultInputOTPGroup {...props} />;
 }
 
-function InputOTPSlot({
-  index,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & {
-  index: number;
-}) {
-  const inputOTPContext = React.useContext(OTPInputContext);
-  const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
-
-  return (
-    <div
-      data-slot="input-otp-slot"
-      data-active={isActive}
-      className={cn(
-        "data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive dark:bg-input/30 border-input relative flex h-9 w-9 items-center justify-center border-y border-r text-sm shadow-xs transition-all outline-none first:rounded-l-md first:border-l last:rounded-r-md data-[active=true]:z-10 data-[active=true]:ring-[3px]",
-        className,
-      )}
-      {...props}
-    >
-      {char}
-      {hasFakeCaret && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" />
-        </div>
-      )}
-    </div>
-  );
+function InputOTPSlot(props: React.ComponentProps<typeof DefaultInputOTPSlot>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaInputOTPSlot {...props} /> : <DefaultInputOTPSlot {...props} />;
 }
 
-function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
-  return (
-    <div data-slot="input-otp-separator" role="separator" {...props}>
-      <MinusIcon />
-    </div>
+function InputOTPSeparator(props: React.ComponentProps<typeof DefaultInputOTPSeparator>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaInputOTPSeparator {...props} />
+  ) : (
+    <DefaultInputOTPSeparator {...props} />
   );
 }
 

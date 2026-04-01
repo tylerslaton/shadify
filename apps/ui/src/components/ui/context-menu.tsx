@@ -1,207 +1,169 @@
-"use client";
+import { useStyle } from "@/lib/style-context";
+import {
+  ContextMenu as DefaultContextMenu,
+  ContextMenuTrigger as DefaultContextMenuTrigger,
+  ContextMenuContent as DefaultContextMenuContent,
+  ContextMenuItem as DefaultContextMenuItem,
+  ContextMenuCheckboxItem as DefaultContextMenuCheckboxItem,
+  ContextMenuRadioItem as DefaultContextMenuRadioItem,
+  ContextMenuLabel as DefaultContextMenuLabel,
+  ContextMenuSeparator as DefaultContextMenuSeparator,
+  ContextMenuShortcut as DefaultContextMenuShortcut,
+  ContextMenuGroup as DefaultContextMenuGroup,
+  ContextMenuPortal as DefaultContextMenuPortal,
+  ContextMenuSub as DefaultContextMenuSub,
+  ContextMenuSubContent as DefaultContextMenuSubContent,
+  ContextMenuSubTrigger as DefaultContextMenuSubTrigger,
+  ContextMenuRadioGroup as DefaultContextMenuRadioGroup,
+} from "../ui-default/context-menu";
+import {
+  ContextMenu as LumaContextMenu,
+  ContextMenuTrigger as LumaContextMenuTrigger,
+  ContextMenuContent as LumaContextMenuContent,
+  ContextMenuItem as LumaContextMenuItem,
+  ContextMenuCheckboxItem as LumaContextMenuCheckboxItem,
+  ContextMenuRadioItem as LumaContextMenuRadioItem,
+  ContextMenuLabel as LumaContextMenuLabel,
+  ContextMenuSeparator as LumaContextMenuSeparator,
+  ContextMenuShortcut as LumaContextMenuShortcut,
+  ContextMenuGroup as LumaContextMenuGroup,
+  ContextMenuPortal as LumaContextMenuPortal,
+  ContextMenuSub as LumaContextMenuSub,
+  ContextMenuSubContent as LumaContextMenuSubContent,
+  ContextMenuSubTrigger as LumaContextMenuSubTrigger,
+  ContextMenuRadioGroup as LumaContextMenuRadioGroup,
+} from "../ui-luma/context-menu";
 
-import * as React from "react";
-import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
-import { ContextMenu as ContextMenuPrimitive } from "radix-ui";
-
-import { cn } from "@/lib/utils";
-
-function ContextMenu({ ...props }: React.ComponentProps<typeof ContextMenuPrimitive.Root>) {
-  return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
+function ContextMenu(props: React.ComponentProps<typeof DefaultContextMenu>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaContextMenu {...props} /> : <DefaultContextMenu {...props} />;
 }
 
-function ContextMenuTrigger({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Trigger>) {
-  return <ContextMenuPrimitive.Trigger data-slot="context-menu-trigger" {...props} />;
-}
-
-function ContextMenuGroup({ ...props }: React.ComponentProps<typeof ContextMenuPrimitive.Group>) {
-  return <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />;
-}
-
-function ContextMenuPortal({ ...props }: React.ComponentProps<typeof ContextMenuPrimitive.Portal>) {
-  return <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />;
-}
-
-function ContextMenuSub({ ...props }: React.ComponentProps<typeof ContextMenuPrimitive.Sub>) {
-  return <ContextMenuPrimitive.Sub data-slot="context-menu-sub" {...props} />;
-}
-
-function ContextMenuRadioGroup({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.RadioGroup>) {
-  return <ContextMenuPrimitive.RadioGroup data-slot="context-menu-radio-group" {...props} />;
-}
-
-function ContextMenuSubTrigger({
-  className,
-  inset,
-  children,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.SubTrigger> & {
-  inset?: boolean;
-}) {
-  return (
-    <ContextMenuPrimitive.SubTrigger
-      data-slot="context-menu-sub-trigger"
-      data-inset={inset}
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      <ChevronRightIcon className="ml-auto" />
-    </ContextMenuPrimitive.SubTrigger>
+function ContextMenuTrigger(props: React.ComponentProps<typeof DefaultContextMenuTrigger>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuTrigger {...props} />
+  ) : (
+    <DefaultContextMenuTrigger {...props} />
   );
 }
 
-function ContextMenuSubContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.SubContent>) {
-  return (
-    <ContextMenuPrimitive.SubContent
-      data-slot="context-menu-sub-content"
-      className={cn(
-        "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-context-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
-        className,
-      )}
-      {...props}
-    />
+function ContextMenuContent(props: React.ComponentProps<typeof DefaultContextMenuContent>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuContent {...props} />
+  ) : (
+    <DefaultContextMenuContent {...props} />
   );
 }
 
-function ContextMenuContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Content>) {
-  return (
-    <ContextMenuPrimitive.Portal>
-      <ContextMenuPrimitive.Content
-        data-slot="context-menu-content"
-        className={cn(
-          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-context-menu-content-available-height) min-w-[8rem] origin-(--radix-context-menu-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-md border p-1 shadow-md",
-          className,
-        )}
-        {...props}
-      />
-    </ContextMenuPrimitive.Portal>
+function ContextMenuItem(props: React.ComponentProps<typeof DefaultContextMenuItem>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuItem {...props} />
+  ) : (
+    <DefaultContextMenuItem {...props} />
   );
 }
 
-function ContextMenuItem({
-  className,
-  inset,
-  variant = "default",
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Item> & {
-  inset?: boolean;
-  variant?: "default" | "destructive";
-}) {
-  return (
-    <ContextMenuPrimitive.Item
-      data-slot="context-menu-item"
-      data-inset={inset}
-      data-variant={variant}
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/20 data-[variant=destructive]:focus:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className,
-      )}
-      {...props}
-    />
+function ContextMenuCheckboxItem(
+  props: React.ComponentProps<typeof DefaultContextMenuCheckboxItem>,
+) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuCheckboxItem {...props} />
+  ) : (
+    <DefaultContextMenuCheckboxItem {...props} />
   );
 }
 
-function ContextMenuCheckboxItem({
-  className,
-  children,
-  checked,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.CheckboxItem>) {
-  return (
-    <ContextMenuPrimitive.CheckboxItem
-      data-slot="context-menu-checkbox-item"
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className,
-      )}
-      checked={checked}
-      {...props}
-    >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-        <ContextMenuPrimitive.ItemIndicator>
-          <CheckIcon className="size-4" />
-        </ContextMenuPrimitive.ItemIndicator>
-      </span>
-      {children}
-    </ContextMenuPrimitive.CheckboxItem>
+function ContextMenuRadioItem(props: React.ComponentProps<typeof DefaultContextMenuRadioItem>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuRadioItem {...props} />
+  ) : (
+    <DefaultContextMenuRadioItem {...props} />
   );
 }
 
-function ContextMenuRadioItem({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.RadioItem>) {
-  return (
-    <ContextMenuPrimitive.RadioItem
-      data-slot="context-menu-radio-item"
-      className={cn(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className,
-      )}
-      {...props}
-    >
-      <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-        <ContextMenuPrimitive.ItemIndicator>
-          <CircleIcon className="size-2 fill-current" />
-        </ContextMenuPrimitive.ItemIndicator>
-      </span>
-      {children}
-    </ContextMenuPrimitive.RadioItem>
+function ContextMenuLabel(props: React.ComponentProps<typeof DefaultContextMenuLabel>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuLabel {...props} />
+  ) : (
+    <DefaultContextMenuLabel {...props} />
   );
 }
 
-function ContextMenuLabel({
-  className,
-  inset,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Label> & {
-  inset?: boolean;
-}) {
-  return (
-    <ContextMenuPrimitive.Label
-      data-slot="context-menu-label"
-      data-inset={inset}
-      className={cn("text-foreground px-2 py-1.5 text-sm font-medium data-[inset]:pl-8", className)}
-      {...props}
-    />
+function ContextMenuSeparator(props: React.ComponentProps<typeof DefaultContextMenuSeparator>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuSeparator {...props} />
+  ) : (
+    <DefaultContextMenuSeparator {...props} />
   );
 }
 
-function ContextMenuSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Separator>) {
-  return (
-    <ContextMenuPrimitive.Separator
-      data-slot="context-menu-separator"
-      className={cn("bg-border -mx-1 my-1 h-px", className)}
-      {...props}
-    />
+function ContextMenuShortcut(props: React.ComponentProps<typeof DefaultContextMenuShortcut>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuShortcut {...props} />
+  ) : (
+    <DefaultContextMenuShortcut {...props} />
   );
 }
 
-function ContextMenuShortcut({ className, ...props }: React.ComponentProps<"span">) {
-  return (
-    <span
-      data-slot="context-menu-shortcut"
-      className={cn("text-muted-foreground ml-auto text-xs tracking-widest", className)}
-      {...props}
-    />
+function ContextMenuGroup(props: React.ComponentProps<typeof DefaultContextMenuGroup>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuGroup {...props} />
+  ) : (
+    <DefaultContextMenuGroup {...props} />
+  );
+}
+
+function ContextMenuPortal(props: React.ComponentProps<typeof DefaultContextMenuPortal>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuPortal {...props} />
+  ) : (
+    <DefaultContextMenuPortal {...props} />
+  );
+}
+
+function ContextMenuSub(props: React.ComponentProps<typeof DefaultContextMenuSub>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuSub {...props} />
+  ) : (
+    <DefaultContextMenuSub {...props} />
+  );
+}
+
+function ContextMenuSubContent(props: React.ComponentProps<typeof DefaultContextMenuSubContent>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuSubContent {...props} />
+  ) : (
+    <DefaultContextMenuSubContent {...props} />
+  );
+}
+
+function ContextMenuSubTrigger(props: React.ComponentProps<typeof DefaultContextMenuSubTrigger>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuSubTrigger {...props} />
+  ) : (
+    <DefaultContextMenuSubTrigger {...props} />
+  );
+}
+
+function ContextMenuRadioGroup(props: React.ComponentProps<typeof DefaultContextMenuRadioGroup>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaContextMenuRadioGroup {...props} />
+  ) : (
+    <DefaultContextMenuRadioGroup {...props} />
   );
 }
 

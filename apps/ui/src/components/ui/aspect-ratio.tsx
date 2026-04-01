@@ -1,9 +1,10 @@
-"use client";
+import { useStyle } from "@/lib/style-context";
+import { AspectRatio as DefaultAspectRatio } from "../ui-default/aspect-ratio";
+import { AspectRatio as LumaAspectRatio } from "../ui-luma/aspect-ratio";
 
-import { AspectRatio as AspectRatioPrimitive } from "radix-ui";
-
-function AspectRatio({ ...props }: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {
-  return <AspectRatioPrimitive.Root data-slot="aspect-ratio" {...props} />;
+function AspectRatio(props: React.ComponentProps<typeof DefaultAspectRatio>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaAspectRatio {...props} /> : <DefaultAspectRatio {...props} />;
 }
 
 export { AspectRatio };

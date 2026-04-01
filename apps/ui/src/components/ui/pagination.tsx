@@ -1,97 +1,79 @@
-import * as React from "react";
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
+import { useStyle } from "@/lib/style-context";
+import {
+  Pagination as DefaultPagination,
+  PaginationContent as DefaultPaginationContent,
+  PaginationLink as DefaultPaginationLink,
+  PaginationItem as DefaultPaginationItem,
+  PaginationPrevious as DefaultPaginationPrevious,
+  PaginationNext as DefaultPaginationNext,
+  PaginationEllipsis as DefaultPaginationEllipsis,
+} from "../ui-default/pagination";
+import {
+  Pagination as LumaPagination,
+  PaginationContent as LumaPaginationContent,
+  PaginationLink as LumaPaginationLink,
+  PaginationItem as LumaPaginationItem,
+  PaginationPrevious as LumaPaginationPrevious,
+  PaginationNext as LumaPaginationNext,
+  PaginationEllipsis as LumaPaginationEllipsis,
+} from "../ui-luma/pagination";
 
-import { cn } from "@/lib/utils";
-import { buttonVariants, type Button } from "@/components/ui/button";
+function Pagination(props: React.ComponentProps<typeof DefaultPagination>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaPagination {...props} /> : <DefaultPagination {...props} />;
+}
 
-function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
-  return (
-    <nav
-      role="navigation"
-      aria-label="pagination"
-      data-slot="pagination"
-      className={cn("mx-auto flex w-full justify-center", className)}
-      {...props}
-    />
+function PaginationContent(props: React.ComponentProps<typeof DefaultPaginationContent>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaPaginationContent {...props} />
+  ) : (
+    <DefaultPaginationContent {...props} />
   );
 }
 
-function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
-  return (
-    <ul
-      data-slot="pagination-content"
-      className={cn("flex flex-row items-center gap-1", className)}
-      {...props}
-    />
+function PaginationLink(props: React.ComponentProps<typeof DefaultPaginationLink>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaPaginationLink {...props} />
+  ) : (
+    <DefaultPaginationLink {...props} />
   );
 }
 
-function PaginationItem({ ...props }: React.ComponentProps<"li">) {
-  return <li data-slot="pagination-item" {...props} />;
-}
-
-type PaginationLinkProps = {
-  isActive?: boolean;
-} & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"a">;
-
-function PaginationLink({ className, isActive, size = "icon", ...props }: PaginationLinkProps) {
-  return (
-    <a
-      aria-current={isActive ? "page" : undefined}
-      data-slot="pagination-link"
-      data-active={isActive}
-      className={cn(
-        buttonVariants({
-          variant: isActive ? "outline" : "ghost",
-          size,
-        }),
-        className,
-      )}
-      {...props}
-    />
+function PaginationItem(props: React.ComponentProps<typeof DefaultPaginationItem>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaPaginationItem {...props} />
+  ) : (
+    <DefaultPaginationItem {...props} />
   );
 }
 
-function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
-  return (
-    <PaginationLink
-      aria-label="Go to previous page"
-      size="default"
-      className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
-      {...props}
-    >
-      <ChevronLeftIcon />
-      <span className="hidden sm:block">Previous</span>
-    </PaginationLink>
+function PaginationPrevious(props: React.ComponentProps<typeof DefaultPaginationPrevious>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaPaginationPrevious {...props} />
+  ) : (
+    <DefaultPaginationPrevious {...props} />
   );
 }
 
-function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
-  return (
-    <PaginationLink
-      aria-label="Go to next page"
-      size="default"
-      className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
-      {...props}
-    >
-      <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon />
-    </PaginationLink>
+function PaginationNext(props: React.ComponentProps<typeof DefaultPaginationNext>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaPaginationNext {...props} />
+  ) : (
+    <DefaultPaginationNext {...props} />
   );
 }
 
-function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span">) {
-  return (
-    <span
-      aria-hidden
-      data-slot="pagination-ellipsis"
-      className={cn("flex size-9 items-center justify-center", className)}
-      {...props}
-    >
-      <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">More pages</span>
-    </span>
+function PaginationEllipsis(props: React.ComponentProps<typeof DefaultPaginationEllipsis>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaPaginationEllipsis {...props} />
+  ) : (
+    <DefaultPaginationEllipsis {...props} />
   );
 }
 
