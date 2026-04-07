@@ -1,16 +1,10 @@
-import { Loader2Icon } from "lucide-react";
+import { useStyle } from "@/lib/style-context";
+import { Spinner as DefaultSpinner } from "../ui-default/spinner";
+import { Spinner as LumaSpinner } from "../ui-luma/spinner";
 
-import { cn } from "@/lib/utils";
-
-function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
-  return (
-    <Loader2Icon
-      role="status"
-      aria-label="Loading"
-      className={cn("size-4 animate-spin", className)}
-      {...props}
-    />
-  );
+function Spinner(props: React.ComponentProps<typeof DefaultSpinner>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaSpinner {...props} /> : <DefaultSpinner {...props} />;
 }
 
 export { Spinner };

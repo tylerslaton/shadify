@@ -1,94 +1,53 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { useStyle } from "@/lib/style-context";
+import {
+  Empty as DefaultEmpty,
+  EmptyHeader as DefaultEmptyHeader,
+  EmptyTitle as DefaultEmptyTitle,
+  EmptyDescription as DefaultEmptyDescription,
+  EmptyContent as DefaultEmptyContent,
+  EmptyMedia as DefaultEmptyMedia,
+} from "../ui-default/empty";
+import {
+  Empty as LumaEmpty,
+  EmptyHeader as LumaEmptyHeader,
+  EmptyTitle as LumaEmptyTitle,
+  EmptyDescription as LumaEmptyDescription,
+  EmptyContent as LumaEmptyContent,
+  EmptyMedia as LumaEmptyMedia,
+} from "../ui-luma/empty";
 
-import { cn } from "@/lib/utils";
+function Empty(props: React.ComponentProps<typeof DefaultEmpty>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaEmpty {...props} /> : <DefaultEmpty {...props} />;
+}
 
-function Empty({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty"
-      className={cn(
-        "flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12",
-        className,
-      )}
-      {...props}
-    />
+function EmptyHeader(props: React.ComponentProps<typeof DefaultEmptyHeader>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaEmptyHeader {...props} /> : <DefaultEmptyHeader {...props} />;
+}
+
+function EmptyTitle(props: React.ComponentProps<typeof DefaultEmptyTitle>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaEmptyTitle {...props} /> : <DefaultEmptyTitle {...props} />;
+}
+
+function EmptyDescription(props: React.ComponentProps<typeof DefaultEmptyDescription>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaEmptyDescription {...props} />
+  ) : (
+    <DefaultEmptyDescription {...props} />
   );
 }
 
-function EmptyHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-header"
-      className={cn("flex max-w-sm flex-col items-center gap-2 text-center", className)}
-      {...props}
-    />
-  );
+function EmptyContent(props: React.ComponentProps<typeof DefaultEmptyContent>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaEmptyContent {...props} /> : <DefaultEmptyContent {...props} />;
 }
 
-const emptyMediaVariants = cva(
-  "flex shrink-0 items-center justify-center mb-2 [&_svg]:pointer-events-none [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-transparent",
-        icon: "bg-muted text-foreground flex size-10 shrink-0 items-center justify-center rounded-lg [&_svg:not([class*='size-'])]:size-6",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  },
-);
-
-function EmptyMedia({
-  className,
-  variant = "default",
-  ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof emptyMediaVariants>) {
-  return (
-    <div
-      data-slot="empty-icon"
-      data-variant={variant}
-      className={cn(emptyMediaVariants({ variant, className }))}
-      {...props}
-    />
-  );
-}
-
-function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-title"
-      className={cn("text-lg font-medium tracking-tight", className)}
-      {...props}
-    />
-  );
-}
-
-function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return (
-    <div
-      data-slot="empty-description"
-      className={cn(
-        "text-muted-foreground [&>a:hover]:text-primary text-sm/relaxed [&>a]:underline [&>a]:underline-offset-4",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-content"
-      className={cn(
-        "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance",
-        className,
-      )}
-      {...props}
-    />
-  );
+function EmptyMedia(props: React.ComponentProps<typeof DefaultEmptyMedia>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaEmptyMedia {...props} /> : <DefaultEmptyMedia {...props} />;
 }
 
 export { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia };

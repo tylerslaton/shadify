@@ -1,19 +1,36 @@
-import { Collapsible as CollapsiblePrimitive } from "radix-ui";
+import { useStyle } from "@/lib/style-context";
+import {
+  Collapsible as DefaultCollapsible,
+  CollapsibleTrigger as DefaultCollapsibleTrigger,
+  CollapsibleContent as DefaultCollapsibleContent,
+} from "../ui-default/collapsible";
+import {
+  Collapsible as LumaCollapsible,
+  CollapsibleTrigger as LumaCollapsibleTrigger,
+  CollapsibleContent as LumaCollapsibleContent,
+} from "../ui-luma/collapsible";
 
-function Collapsible({ ...props }: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
-  return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />;
+function Collapsible(props: React.ComponentProps<typeof DefaultCollapsible>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaCollapsible {...props} /> : <DefaultCollapsible {...props} />;
 }
 
-function CollapsibleTrigger({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) {
-  return <CollapsiblePrimitive.CollapsibleTrigger data-slot="collapsible-trigger" {...props} />;
+function CollapsibleTrigger(props: React.ComponentProps<typeof DefaultCollapsibleTrigger>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaCollapsibleTrigger {...props} />
+  ) : (
+    <DefaultCollapsibleTrigger {...props} />
+  );
 }
 
-function CollapsibleContent({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) {
-  return <CollapsiblePrimitive.CollapsibleContent data-slot="collapsible-content" {...props} />;
+function CollapsibleContent(props: React.ComponentProps<typeof DefaultCollapsibleContent>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaCollapsibleContent {...props} />
+  ) : (
+    <DefaultCollapsibleContent {...props} />
+  );
 }
 
 export { Collapsible, CollapsibleTrigger, CollapsibleContent };

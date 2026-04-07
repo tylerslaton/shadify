@@ -1,26 +1,10 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useStyle } from "@/lib/style-context";
+import { SimpleSelect as DefaultSimpleSelect } from "../ui-default/simple-select";
+import { SimpleSelect as LumaSimpleSelect } from "../ui-luma/simple-select";
 
-function SimpleSelect({ placeholder, options }: { placeholder?: string; options: string[] }) {
-  return (
-    <Select>
-      <SelectTrigger>
-        <SelectValue placeholder={placeholder ?? "Select..."} />
-      </SelectTrigger>
-      <SelectContent>
-        {options.map((option) => (
-          <SelectItem key={option} value={option}>
-            {option}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
+function SimpleSelect(props: React.ComponentProps<typeof DefaultSimpleSelect>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaSimpleSelect {...props} /> : <DefaultSimpleSelect {...props} />;
 }
 
 export { SimpleSelect };

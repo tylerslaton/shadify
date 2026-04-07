@@ -6,19 +6,22 @@ import { useChatKit } from "@/components/chat/chat-kit";
 import { s } from "@hashbrownai/core";
 import { chatTheme } from "@/lib/chat-theme";
 import { useInitialSuggestions } from "./lib/suggestions";
+import { StyleProvider } from "@/lib/style-context";
 
 export function App() {
   return (
-    <CopilotKit
-      runtimeUrl={
-        import.meta.env.VITE_RUNTIME_HOST
-          ? `https://${import.meta.env.VITE_RUNTIME_HOST}.onrender.com/api/copilotkit`
-          : "/api/copilotkit"
-      }
-      showDevConsole={false}
-    >
-      <Page />
-    </CopilotKit>
+    <StyleProvider>
+      <CopilotKit
+        runtimeUrl={
+          import.meta.env.VITE_RUNTIME_HOST
+            ? `https://${import.meta.env.VITE_RUNTIME_HOST}.onrender.com/api/copilotkit`
+            : "/api/copilotkit"
+        }
+        showDevConsole={false}
+      >
+        <Page />
+      </CopilotKit>
+    </StyleProvider>
   );
 }
 

@@ -31,8 +31,7 @@ const IGNORABLE_ERRORS = [
 ];
 
 function isIgnorable(err: unknown): boolean {
-  const msg =
-    err instanceof Error ? `${err.name}: ${err.message}` : String(err);
+  const msg = err instanceof Error ? `${err.name}: ${err.message}` : String(err);
   if (IGNORABLE_ERRORS.some((token) => msg.includes(token))) return true;
   // Check cause chain (Node.js fetch wraps network errors)
   if (err instanceof Error && err.cause) {
@@ -93,17 +92,17 @@ function gracefulShutdown() {
   if (shuttingDown) return;
   shuttingDown = true;
   for (const cb of shutdownCallbacks) {
-    try { cb(); } catch (e) { console.error("[shutdown] callback error", e); }
+    try {
+      cb();
+    } catch (e) {
+      console.error("[shutdown] callback error", e);
+    }
   }
 
   const mem = process.memoryUsage();
   const heapMb = Math.round(mem.heapUsed / 1024 / 1024);
-  console.warn(
-    `[memory] Heap at ${heapMb}MB — initiating graceful shutdown to avoid OOM crash`,
-  );
-  console.warn(
-    `[memory] Draining in-flight requests for ${GRACEFUL_DRAIN_MS}ms before exit…`,
-  );
+  console.warn(`[memory] Heap at ${heapMb}MB — initiating graceful shutdown to avoid OOM crash`);
+  console.warn(`[memory] Draining in-flight requests for ${GRACEFUL_DRAIN_MS}ms before exit…`);
 
   // Give in-flight requests a few seconds to complete, then exit cleanly.
   // Render will restart the instance automatically.
@@ -124,9 +123,7 @@ setInterval(() => {
   }
 
   if (rssMb > MEMORY_WARN_THRESHOLD_MB) {
-    console.warn(
-      `[memory] WARNING RSS=${rssMb}MB heap=${heapMb}MB — approaching limit`,
-    );
+    console.warn(`[memory] WARNING RSS=${rssMb}MB heap=${heapMb}MB — approaching limit`);
     if (global.gc) {
       console.warn("[memory] Forcing garbage collection");
       global.gc();

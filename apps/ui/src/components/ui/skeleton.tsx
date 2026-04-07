@@ -1,13 +1,10 @@
-import { cn } from "@/lib/utils";
+import { useStyle } from "@/lib/style-context";
+import { Skeleton as DefaultSkeleton } from "../ui-default/skeleton";
+import { Skeleton as LumaSkeleton } from "../ui-luma/skeleton";
 
-function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="skeleton"
-      className={cn("bg-accent animate-pulse rounded-md", className)}
-      {...props}
-    />
-  );
+function Skeleton(props: React.ComponentProps<typeof DefaultSkeleton>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaSkeleton {...props} /> : <DefaultSkeleton {...props} />;
 }
 
 export { Skeleton };

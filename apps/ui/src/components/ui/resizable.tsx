@@ -1,46 +1,39 @@
-"use client";
+import { useStyle } from "@/lib/style-context";
+import {
+  ResizableHandle as DefaultResizableHandle,
+  ResizablePanel as DefaultResizablePanel,
+  ResizablePanelGroup as DefaultResizablePanelGroup,
+} from "../ui-default/resizable";
+import {
+  ResizableHandle as LumaResizableHandle,
+  ResizablePanel as LumaResizablePanel,
+  ResizablePanelGroup as LumaResizablePanelGroup,
+} from "../ui-luma/resizable";
 
-import { GripVerticalIcon } from "lucide-react";
-import * as ResizablePrimitive from "react-resizable-panels";
-
-import { cn } from "@/lib/utils";
-
-function ResizablePanelGroup({ className, ...props }: ResizablePrimitive.GroupProps) {
-  return (
-    <ResizablePrimitive.Group
-      data-slot="resizable-panel-group"
-      className={cn("flex h-full w-full aria-[orientation=vertical]:flex-col", className)}
-      {...props}
-    />
+function ResizableHandle(props: React.ComponentProps<typeof DefaultResizableHandle>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaResizableHandle {...props} />
+  ) : (
+    <DefaultResizableHandle {...props} />
   );
 }
 
-function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {
-  return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />;
+function ResizablePanel(props: React.ComponentProps<typeof DefaultResizablePanel>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaResizablePanel {...props} />
+  ) : (
+    <DefaultResizablePanel {...props} />
+  );
 }
 
-function ResizableHandle({
-  withHandle,
-  className,
-  ...props
-}: ResizablePrimitive.SeparatorProps & {
-  withHandle?: boolean;
-}) {
-  return (
-    <ResizablePrimitive.Separator
-      data-slot="resizable-handle"
-      className={cn(
-        "bg-border focus-visible:ring-ring relative flex w-px items-center justify-center after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>div]:rotate-90",
-        className,
-      )}
-      {...props}
-    >
-      {withHandle && (
-        <div className="bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border">
-          <GripVerticalIcon className="size-2.5" />
-        </div>
-      )}
-    </ResizablePrimitive.Separator>
+function ResizablePanelGroup(props: React.ComponentProps<typeof DefaultResizablePanelGroup>) {
+  const { style } = useStyle();
+  return style === "luma" ? (
+    <LumaResizablePanelGroup {...props} />
+  ) : (
+    <DefaultResizablePanelGroup {...props} />
   );
 }
 

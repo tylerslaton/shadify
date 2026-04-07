@@ -1,19 +1,10 @@
-import * as React from "react";
-import { Label as LabelPrimitive } from "radix-ui";
+import { useStyle } from "@/lib/style-context";
+import { Label as DefaultLabel } from "../ui-default/label";
+import { Label as LumaLabel } from "../ui-luma/label";
 
-import { cn } from "@/lib/utils";
-
-function Label({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
-  return (
-    <LabelPrimitive.Root
-      data-slot="label"
-      className={cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-        className,
-      )}
-      {...props}
-    />
-  );
+function Label(props: React.ComponentProps<typeof DefaultLabel>) {
+  const { style } = useStyle();
+  return style === "luma" ? <LumaLabel {...props} /> : <DefaultLabel {...props} />;
 }
 
 export { Label };
