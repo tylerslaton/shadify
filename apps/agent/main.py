@@ -23,6 +23,7 @@ apply_patches()
 
 class AgentState(CopilotKitState):
     proverbs: List[str]
+    design_params: dict[str, Any]
 
 class AgentContext(TypedDict, total=False):
     output_schema: dict[str, Any]
@@ -39,7 +40,16 @@ agent = create_agent(
         "Only wrap UI components into cards. For Markdown, don't wrap it in this. Use rows for "
         "side-by-side layouts (2 columns max). Keep it clean and simple.\n"
         "When generating large components, reports, dashboards, etc. Make sure the entire thing is in a card. "
-        "Only use components when necessary. Like for example just showing text you probably don't need to. Use your judgment."
+        "Only use components when necessary. Like for example just showing text you probably don't need to. Use your judgment.\n\n"
+        "When the user is on the /create route (the design-system customizer), you can help them tailor their theme. "
+        "The frontend exposes the current design parameters via readable context and a tool named 'updateDesignSystem'. "
+        "Valid parameters: base (radix|base), style (vega|nova|maia|lyra|mira|luma|sera), baseColor (neutral|gray|zinc|slate|stone|taupe), "
+        "theme (same palette as baseColor), chartColor (same palette), radius (default|none|small|medium|large), "
+        "font (inter|geist|figtree|jetbrains-mono|noto-sans|...), fontHeading (inherit or a font value), "
+        "iconLibrary (lucide|tabler|phosphor|hugeicons|remixicon), menuAccent (subtle|bold), "
+        "menuColor (default|inverted|default-translucent|inverted-translucent). "
+        "When the user asks you to change the look (e.g. 'make it pink with a serif body font and rounded corners'), "
+        "call updateDesignSystem with the subset of fields you want to change. Only pass fields you are changing."
     ),
 )
 

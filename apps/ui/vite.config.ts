@@ -8,6 +8,13 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "next/image": path.resolve(__dirname, "./src/shims/next-image.tsx"),
+      "next/link": path.resolve(__dirname, "./src/shims/next-link.tsx"),
+      "next/script": path.resolve(__dirname, "./src/shims/next-script.tsx"),
+      "next/form": path.resolve(__dirname, "./src/shims/next-form.tsx"),
+      "next/navigation": path.resolve(__dirname, "./src/shims/next-navigation.ts"),
+      "next/dynamic": path.resolve(__dirname, "./src/shims/next-dynamic.ts"),
+      "next/font/google": path.resolve(__dirname, "./src/shims/next-font-google.ts"),
     },
   },
   server: {

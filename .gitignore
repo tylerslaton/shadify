@@ -49,3 +49,6 @@ bun.lockb
 
 # LangGraph API
 .langgraph_api
+
+# local shadcn reference checkout (not a workspace)
+shadcn/
