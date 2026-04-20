@@ -14,12 +14,37 @@ export type NextFontResult = {
   variable: string;
 };
 
+const loadedFamilies = new Set<string>();
+
+function ensureGoogleFontLoaded(family: string, opts?: FontOptions) {
+  if (typeof document === "undefined") return;
+  if (loadedFamilies.has(family)) return;
+  loadedFamilies.add(family);
+
+  // Include a wide weight range for variable fonts so UI hierarchy renders.
+  const weights = opts?.weight
+    ? Array.isArray(opts.weight)
+      ? opts.weight.join(";")
+      : opts.weight
+    : "100..900";
+  const familyParam = family.replace(/\s+/g, "+");
+  const href = `https://fonts.googleapis.com/css2?family=${familyParam}:wght@${weights}&display=swap`;
+
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = href;
+  document.head.appendChild(link);
+}
+
 function makeFont(family: string): (opts?: FontOptions) => NextFontResult {
-  return (opts?: FontOptions) => ({
-    className: "",
-    style: { fontFamily: family },
-    variable: opts?.variable ?? `--font-${family.toLowerCase().replace(/\s+/g, "-")}`,
-  });
+  return (opts?: FontOptions) => {
+    ensureGoogleFontLoaded(family, opts);
+    return {
+      className: "",
+      style: { fontFamily: `'${family}', system-ui, sans-serif` },
+      variable: opts?.variable ?? `--font-${family.toLowerCase().replace(/\s+/g, "-")}`,
+    };
+  };
 }
 
 // Export every Google font used in the registry/create tree. Add more as needed.

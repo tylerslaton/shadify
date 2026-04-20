@@ -1,4 +1,6 @@
 
+import { TooltipProvider } from "@/registry/bases/radix/ui/tooltip"
+
 import { ActivateAgentDialog } from "@/registry/bases/radix/blocks/preview/cards/activate-agent-dialog"
 import { AnalyticsCard } from "@/registry/bases/radix/blocks/preview/cards/analytics-card"
 import { AnomalyAlert } from "@/registry/bases/radix/blocks/preview/cards/anomaly-alert"
@@ -33,6 +35,7 @@ import { WeeklyFitnessSummary } from "@/registry/bases/radix/blocks/preview/card
 
 export default function PreviewExample() {
   return (
+    <TooltipProvider>
     <div className="overflow-x-auto overflow-y-hidden bg-muted contain-[paint] [--gap:--spacing(4)] 3xl:[--gap:--spacing(12)] md:[--gap:--spacing(10)] dark:bg-background style-lyra:md:[--gap:--spacing(6)] style-mira:md:[--gap:--spacing(6)]">
       <div className="flex w-full min-w-max justify-center">
         <div
@@ -92,5 +95,6 @@ export default function PreviewExample() {
         </div>
       </div>
     </div>
+    </TooltipProvider>
   )
 }

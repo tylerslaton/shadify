@@ -18,7 +18,7 @@ export function useRandomizeCoAgent() {
   useCopilotAction({
     name: "randomize",
     description:
-      "Randomize the customizer. If `only` is provided, randomize just those params (anything else stays fixed). Locked params are always preserved.",
+      "Randomize the customizer once. If `only` is provided, randomize just those params (anything else stays fixed). Locked params are always preserved — do NOT call this tool again to try to change a locked param; instead tell the user it is locked. Call this tool exactly once per user request.",
     parameters: [
       {
         name: "only",
@@ -37,10 +37,21 @@ export function useRandomizeCoAgent() {
         subset = only as LockableParam[]
       }
       const next = computeRandomParams(params, locks, { only: subset })
+      const changed: string[] = []
+      for (const key of Object.keys(next) as (keyof typeof next)[]) {
+        if (next[key] !== params[key]) changed.push(key)
+      }
       setParams(next)
-      return subset
-        ? `Randomized: ${subset.join(", ")}.`
-        : "Randomized all unlocked params."
+      const lockedList = [...locks]
+      const lockedNote =
+        lockedList.length > 0
+          ? ` Preserved locked params (do not retry to change these): ${lockedList.join(", ")}.`
+          : ""
+      const changedNote =
+        changed.length > 0
+          ? `Randomized ${changed.length} param(s): ${changed.join(", ")}.`
+          : "No unlocked params changed (everything was locked or outside `only`)."
+      return `${changedNote}${lockedNote} Done — do not call randomize again for this request.`
     },
   })
 }

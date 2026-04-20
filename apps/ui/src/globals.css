@@ -134,6 +134,10 @@ body > :not([data-design-system-root]):is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-heading, var(--font-sans));
 }
 
+.cn-font-heading {
+  font-family: var(--font-heading, var(--font-sans));
+}
+
 /*
  * @copilotkit/react-ui's input.css ships a selector list where the commas
  * make bare ".dark" (and a few siblings) apply "color: rgb(69,69,69) !important"
