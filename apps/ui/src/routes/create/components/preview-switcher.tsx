@@ -5,13 +5,16 @@ import { useDesignSystemSearchParams } from "@/routes/create/lib/search-params"
 const PREVIEW_ITEMS = [
   { label: "01", value: "preview-02" },
   { label: "02", value: "preview" },
+  { label: "03", value: "custom" },
 ]
 
 export function PreviewSwitcher() {
   const [params, setParams] = useDesignSystemSearchParams()
 
   const isPreview =
-    params.item === "preview" || params.item.startsWith("preview-0")
+    params.item === "preview" ||
+    params.item === "custom" ||
+    params.item.startsWith("preview-0")
 
   if (!isPreview) {
     return null

@@ -30,7 +30,7 @@ export const LOCKABLE_PARAMS = [
   "radius",
 ] as const satisfies readonly LockableParam[]
 
-export const PREVIEW_ITEMS = ["preview", "preview-02"] as const
+export const PREVIEW_ITEMS = ["preview", "preview-02", "custom"] as const
 export type PreviewItem = (typeof PREVIEW_ITEMS)[number]
 
 export const COLOR_MODES = ["light", "dark", "system", "toggle"] as const

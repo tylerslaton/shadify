@@ -3,6 +3,7 @@ import * as React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { DesignSystemProvider } from "@/routes/create/components/design-system-provider";
+import { CustomComponentRenderer } from "@/routes/create/preview/custom-component-renderer";
 import { getBaseComponent } from "@/routes/create/lib/api";
 import { useDesignSystemSearchParams } from "@/routes/create/lib/search-params";
 import type { BaseName } from "@/registry/config";
@@ -24,10 +25,16 @@ function PreviewSkeleton() {
 
 export function InlinePreview({ isDark }: { isDark?: boolean }) {
   const [params] = useDesignSystemSearchParams();
+  const isCustom = params.item === "custom";
   const [Component, setComponent] = React.useState<React.ComponentType | null>(null);
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
+    if (isCustom) {
+      setComponent(null);
+      setError(null);
+      return;
+    }
     let cancelled = false;
     setComponent(null);
     setError(null);
@@ -46,12 +53,14 @@ export function InlinePreview({ isDark }: { isDark?: boolean }) {
     return () => {
       cancelled = true;
     };
-  }, [params.base, params.item]);
+  }, [params.base, params.item, isCustom]);
 
   return (
     <DesignSystemProvider isDark={isDark} className="h-full w-full overflow-auto">
       <React.Suspense fallback={<PreviewSkeleton />}>
-        {error ? (
+        {isCustom ? (
+          <CustomComponentRenderer />
+        ) : error ? (
           <div className="flex h-full w-full items-center justify-center p-8 text-center text-sm text-muted-foreground">
             {error}
           </div>

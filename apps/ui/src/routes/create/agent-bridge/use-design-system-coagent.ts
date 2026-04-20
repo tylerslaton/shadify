@@ -1,6 +1,7 @@
 import { useCopilotAction, useCopilotReadable } from "@copilotkit/react-core"
 
 import { ENUMS, validateEnum } from "@/routes/create/agent-bridge/validation"
+import { useCustomComponentCoAgent } from "@/routes/create/agent-bridge/use-custom-component-coagent"
 import { useHistoryCoAgent } from "@/routes/create/agent-bridge/use-history-coagent"
 import { useLocksCoAgent } from "@/routes/create/agent-bridge/use-locks-coagent"
 import { usePresetCoAgent } from "@/routes/create/agent-bridge/use-preset-coagent"
@@ -88,5 +89,6 @@ export function useDesignSystemCoAgent() {
   useThemeCoAgent()
   usePresetCoAgent()
   usePreviewCoAgent()
+  useCustomComponentCoAgent()
   useToolRendererCoAgent()
 }

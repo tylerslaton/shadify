@@ -2,6 +2,7 @@ import * as React from "react"
 import {
   CheckIcon,
   Dice5Icon,
+  LayoutTemplateIcon,
   LockIcon,
   LockOpenIcon,
   PaletteIcon,
@@ -80,6 +81,12 @@ const TOOLS: Record<string, ToolMeta> = {
     verbDone: "Preview switched",
     Icon: SparklesIcon,
   },
+  createCustomComponent: {
+    label: "Custom component",
+    verbRunning: "Building component",
+    verbDone: "Component built",
+    Icon: LayoutTemplateIcon,
+  },
   undo: {
     label: "Undo",
     verbRunning: "Stepping back",
@@ -110,7 +117,8 @@ function formatArg(value: unknown): string {
   if (Array.isArray(value)) return value.join(", ")
   if (typeof value === "object") {
     try {
-      return JSON.stringify(value)
+      const json = JSON.stringify(value)
+      return json.length > 60 ? `${json.slice(0, 48)}…` : json
     } catch {
       return String(value)
     }
@@ -152,7 +160,7 @@ export function ToolCallCard({
     <div
       data-status={status}
       className={cn(
-        "group/tool mt-2 flex w-full max-w-[52ch] items-start gap-3 rounded-2xl border border-foreground/10 bg-background/60 px-3 py-2.5 shadow-[0_6px_20px_-18px_rgba(0,0,0,0.35)] backdrop-blur-sm",
+        "group/tool mt-2 flex w-full max-w-[52ch] items-start gap-3 rounded-2xl border border-foreground/10 bg-foreground/[0.03] px-3 py-2.5",
         "transition-all duration-300",
         running && "animate-tool-pulse",
         isDone && "border-foreground/15"
