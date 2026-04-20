@@ -13,7 +13,14 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "next/image": ["./src/shims/next-image.tsx"],
+      "next/link": ["./src/shims/next-link.tsx"],
+      "next/script": ["./src/shims/next-script.tsx"],
+      "next/form": ["./src/shims/next-form.tsx"],
+      "next/navigation": ["./src/shims/next-navigation.ts"],
+      "next/dynamic": ["./src/shims/next-dynamic.ts"],
+      "next/font/google": ["./src/shims/next-font-google.ts"]
     }
   },
   "include": ["src"]

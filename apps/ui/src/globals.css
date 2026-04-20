@@ -2,7 +2,24 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@import "./registry/styles/style-vega.css" layer(base);
+@import "./registry/styles/style-nova.css" layer(base);
+@import "./registry/styles/style-lyra.css" layer(base);
+@import "./registry/styles/style-maia.css" layer(base);
+@import "./registry/styles/style-mira.css" layer(base);
+@import "./registry/styles/style-luma.css" layer(base);
+@import "./registry/styles/style-sera.css" layer(base);
+
+@custom-variant style-vega (&:where(.style-vega *));
+@custom-variant style-nova (&:where(.style-nova *));
+@custom-variant style-lyra (&:where(.style-lyra *));
+@custom-variant style-maia (&:where(.style-maia *));
+@custom-variant style-mira (&:where(.style-mira *));
+@custom-variant style-luma (&:where(.style-luma *));
+@custom-variant style-sera (&:where(.style-sera *));
+
 @custom-variant dark (&:is(.dark *));
+@custom-variant fixed (&:is(.layout-fixed *));
 
 :root {
   --font-body: "Fredoka", "DM Sans", "Segoe UI", sans-serif;
@@ -108,13 +125,27 @@ body::before {
   background-size: 256px 256px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body > :not([data-design-system-root]) :is(h1, h2, h3, h4, h5, h6),
+body > :not([data-design-system-root]):is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-display);
+}
+
+[data-design-system-root] :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading, var(--font-sans));
+}
+
+.cn-font-heading {
+  font-family: var(--font-heading, var(--font-sans));
+}
+
+/*
+ * @copilotkit/react-ui's input.css ships a selector list where the commas
+ * make bare ".dark" (and a few siblings) apply "color: rgb(69,69,69) !important"
+ * to any element with class "dark", which clobbers Tailwind's dark-mode color
+ * inside our customizer Card. Override with higher specificity + !important.
+ */
+body :is(.dark, [data-theme="dark"]):not(.poweredBy) {
+  color: var(--foreground) !important;
 }
 
 code,
@@ -402,10 +433,51 @@ samp {
   }
 }
 
+@keyframes tool-pulse {
+  0%,
+  100% {
+    box-shadow: 0 6px 20px -18px rgba(0, 0, 0, 0.35);
+  }
+  50% {
+    box-shadow: 0 10px 28px -18px rgba(0, 0, 0, 0.45);
+  }
+}
+
+@keyframes tool-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes tool-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @theme inline {
+  --animate-tool-pulse: tool-pulse 1.8s ease-in-out infinite;
+  --animate-tool-dot: tool-dot 1.2s ease-in-out infinite;
+  --animate-tool-fade-in: tool-fade-in 240ms ease-out both;
   --font-family-body: "Fredoka", "DM Sans", "Segoe UI", sans-serif;
   --font-family-display: "KefirVariable", "Fraunces", "Times New Roman", serif;
   --font-family-code: "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas, monospace;
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --breakpoint-3xl: 1600px;
+  --breakpoint-4xl: 2000px;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
